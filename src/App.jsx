@@ -5,6 +5,7 @@ import Home from './Pages/Home'
 import Buy from './Pages/Buy'
 import NavBar from './Components/NavBar'
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import Footer from './Components/Footer'
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Route path='/buy' element={<Buy />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
+    <Footer/>
     
     </main>
  

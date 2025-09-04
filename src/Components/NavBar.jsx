@@ -24,7 +24,7 @@ function NavBar() {
 
       {/* Login Button */}
       <div>
-        <button className='flex items-center gap-2 px-6 py-2 rounded-full bg-blue-900 text-white font-semibold hover:bg-blue-600 transition'>
+        <button className='flex items-center gap-2 px-6 py-2 rounded-full bg-blue-900 text-white font-semibold hover:bg-blue-700 transition'>
           Login / Register 
           <i className="bi bi-arrow-right-circle text-lg"></i>
         </button>
