@@ -7,6 +7,7 @@ import Aboutus from '../Components/Aboutus'
 import BestProperty from '../Components/BestProperty'
 import PerfectRentedH from '../Components/PerfectRentedH'
 import StartYourJ from '../Components/StartYourJ'
+import WeProvide from '../Components/WeProvide'
 
 function Home() {
   return (
@@ -65,6 +66,9 @@ function Home() {
       </div>
       <div>
         <StartYourJ/>
+      </div>
+      <div>
+        <WeProvide/>
       </div>
 
     </div>
