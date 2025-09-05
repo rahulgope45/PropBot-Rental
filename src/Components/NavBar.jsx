@@ -33,7 +33,7 @@ function NavBar() {
 
       {/* Lower Search Bar */}
       <div className="absolute left-1/2 transform -translate-x-1/2 bottom-10 z-30">
-        <div className="flex  items-center justify-center bg-white rounded-full border border-gray-300 shadow-lg overflow-hidden w-[1106px] h-[80px] gap-4">
+        <div className="flex  items-center justify-center bg-white rounded-full border border-gray-300 shadow-lg overflow-hidden w-[1106px] h-[80px] gap-4 shadow">
           {/* Each filter option */}
           <div className="w-[243px] flex items-center justify-between px-4 py-3 border border-gray-300 font-medium text-gray-700 rounded-full">
             {/* Left Side: Icon + Text */}

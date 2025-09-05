@@ -3,6 +3,7 @@ import banner1 from '/banner1.png'
 import Geo1 from '/Geo1.png'
 import search1 from '/search1.png'
 import Featured from '../Components/Featured'
+import Aboutus from '../Components/Aboutus'
 
 function Home() {
   return (
@@ -17,7 +18,7 @@ function Home() {
           className="w-full h-full object-cover rounded-xl z-0"
         />
 
-        <div className="absolute left-1/2 transform -translate-x-1/2 bottom-20 z-20 flex gap-100">
+        <div className="absolute left-1/2 transform -translate-x-1/2 bottom-20 z-20 flex gap-100 ">
         {/* Search box overlay - centered, sits above image */}
         <div className=" w-[90%] max-w-[820px]">
           <div className="flex items-center gap-4 bg-white px-6 py-4 h-[72px] border rounded-lg shadow-lg">
@@ -46,6 +47,10 @@ function Home() {
     </div>
 
     {/* About Us Section */}
+       <div>
+        <Aboutus/>
+
+      </div>
         <div>
           <Featured/>
         </div>
