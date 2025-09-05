@@ -42,7 +42,7 @@ function Aboutus() {
             </div>
 
             {/* 2nd card */}
-            <div className="w-[300px] mx-auto bg-gray-100 rounded-2xl shadow-md flex flex-col items-center justify-center text-center p-6 space-y-2">
+            <div className="w-[300px] mx-auto bg-white rounded-2xl shadow-xl flex flex-col items-center justify-center text-center p-6 space-y-2">
                 <img src={card2} className="h-20 w-20 object-contain bg-stone-300 p-3 rounded-full" />
                 <p className='text-2x1 font-semibold'>
                     Find Rental
@@ -78,7 +78,7 @@ function Aboutus() {
             </div>
 
             {/* 4th card */}
-            <div className="w-[300px] mx-auto bg-gray-100 rounded-2xl shadow-md flex flex-col items-center justify-center text-center p-6 space-y-2">
+            <div className="w-[300px] mx-auto bg-gray-100 rounded-2xl shadow-md flex flex-col items-center justify-center text-center p-6 space-y-2 ">
                 <img src={card4} className="h-20 w-20 object-contain bg-stone-300 p-3 rounded-full" />
                 <p className='text-2x1 font-semibold'>
                     Safe & Secure

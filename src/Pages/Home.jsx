@@ -4,6 +4,9 @@ import Geo1 from '/Geo1.png'
 import search1 from '/search1.png'
 import Featured from '../Components/Featured'
 import Aboutus from '../Components/Aboutus'
+import BestProperty from '../Components/BestProperty'
+import PerfectRentedH from '../Components/PerfectRentedH'
+import StartYourJ from '../Components/StartYourJ'
 
 function Home() {
   return (
@@ -54,6 +57,16 @@ function Home() {
         <div>
           <Featured/>
         </div>
+      <div>
+        <BestProperty/>
+      </div>
+      <div>
+        <PerfectRentedH/>
+      </div>
+      <div>
+        <StartYourJ/>
+      </div>
+
     </div>
   )
 }
