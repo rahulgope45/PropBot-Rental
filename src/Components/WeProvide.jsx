@@ -26,7 +26,7 @@ function WeProvide() {
       </div>
 
       {/* Right Side (Text + Features) */}
-      <div className="max-w-xl flex flex-col item-center justify-center">
+      <div className="max-w-xl flex flex-col items-center">
         {/* Heading */}
         <div className="mb-10">
           <p className="text-[45px] w-[659px] leading-snug text-blue-900 font-bold">
@@ -46,7 +46,7 @@ function WeProvide() {
               <p className="text-2xl text-blue-900 font-bold mb-2">
                 Budget Friendly
               </p>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-800 leading-relaxed text-2x1">
                 Lorem ipsum dolor sit amet consectetur.<br/>
                 Venenatis sed ac aenean tempus. Lectus quis<br/>
                 pretium varius iaculis sed.
@@ -61,7 +61,7 @@ function WeProvide() {
               <p className="text-2xl text-blue-900 font-bold mb-2">
                 Trusted By Thousand
               </p>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-800 leading-relaxed text-2x1">
                 Lorem ipsum dolor sit amet consectetur.<br/>
                 Venenatis sed ac aenean tempus. Lectus quis<br/>
                 pretium varius iaculis sed.
@@ -76,7 +76,7 @@ function WeProvide() {
               <p className="text-2xl text-blue-900 font-bold mb-2">
                 Prime Location
               </p>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-800 leading-relaxed text-2x1">
                 Lorem ipsum dolor sit amet consectetur.<br/>
                 Venenatis sed ac aenean tempus. Lectus quis<br/>
                 pretium varius iaculis sed.
