@@ -40,7 +40,7 @@ function Home() {
           List Your Property
         </button>
 
-        </div>
+        </div>  
           
         </div>
 
