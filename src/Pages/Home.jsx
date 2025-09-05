@@ -2,10 +2,12 @@ import React from 'react'
 import banner1 from '/banner1.png'
 import Geo1 from '/Geo1.png'
 import search1 from '/search1.png'
+import Featured from '../Components/Featured'
 
 function Home() {
   return (
-    <div className="flex justify-center items-center mb-10">
+    <div>
+      <div className="flex justify-center items-center mb-10">
       {/* relative container sized to the banner */}
       <div className="relative w-[1334px] h-[527px] max-w-full">
         {/* banner image */}
@@ -37,7 +39,16 @@ function Home() {
         </div>
           
         </div>
+
+
+        
       
+    </div>
+
+    {/* About Us Section */}
+        <div>
+          <Featured/>
+        </div>
     </div>
   )
 }
