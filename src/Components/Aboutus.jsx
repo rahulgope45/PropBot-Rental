@@ -1,8 +1,12 @@
 import React from 'react'
+import card1 from '/card1.png'
+import card2 from '/card2.png'
+import card3 from '/card3.png'
+import card4 from '/card4.png'
 
 function Aboutus() {
   return (
-    <div className='flex item-center justify-center mt-25'>
+    <div className=' mt-25'>
         <div className="text-center mx-auto w-fit">
             <p className='text-5xl text-blue-900 font-bold mb-2'>
                 What We Do? 
@@ -18,7 +22,78 @@ function Aboutus() {
         </div>
         
         {/* Card section */}
-        <div>
+        <div className='mt-10 flex item-center justify-center gap-1'>
+            {/* First card */}
+            <div className="w-[300px] mx-auto bg-gray-100 rounded-2xl shadow-md flex flex-col items-center justify-center text-center p-6 space-y-2">
+                <img src={card1} className="h-20 w-20 object-contain bg-stone-300 p-3 rounded-full" />
+                <p className='text-2x1 font-semibold'>
+                    Buy & Sell
+                </p>
+                <p className='text-2x1 font-semibold'>
+                    Properties
+                </p>
+                <p>
+                    Find verified homes for sale or list
+                </p>
+                <p>
+                    your property with ease.
+                </p>
+
+            </div>
+
+            {/* 2nd card */}
+            <div className="w-[300px] mx-auto bg-gray-100 rounded-2xl shadow-md flex flex-col items-center justify-center text-center p-6 space-y-2">
+                <img src={card2} className="h-20 w-20 object-contain bg-stone-300 p-3 rounded-full" />
+                <p className='text-2x1 font-semibold'>
+                    Find Rental
+                </p>
+                <p className='text-2x1 font-semibold'>
+                    Homes
+                </p>
+                <p>
+                    Browse through thousands of
+                </p>
+                <p>
+                    rental options suited to your needs.
+                </p>
+
+            </div >
+
+            {/* 3rd card */}
+            <div className="w-[300px] mx-auto bg-gray-100 rounded-2xl shadow-md flex flex-col items-center justify-center text-center p-6 space-y-2">
+                <img src={card3} className="h-20 w-20 object-contain bg-stone-300 p-3 rounded-full" />
+                <p className='text-2x1 font-semibold'>
+                    Smart Ai
+                </p>
+                <p className='text-2x1 font-semibold'>
+                    Property Search
+                </p>
+                <p>
+                    Get instant recommendations
+                </p>
+                <p>
+                    based on your budget & location.
+                </p>
+
+            </div>
+
+            {/* 4th card */}
+            <div className="w-[300px] mx-auto bg-gray-100 rounded-2xl shadow-md flex flex-col items-center justify-center text-center p-6 space-y-2">
+                <img src={card4} className="h-20 w-20 object-contain bg-stone-300 p-3 rounded-full" />
+                <p className='text-2x1 font-semibold'>
+                    Safe & Secure
+                </p>
+                <p className='text-2x1 font-semibold'>
+                    Transactions
+                </p>
+                <p>
+                    Verified listings & secure deals to 
+                </p>
+                <p>
+                    ensure a smooth experience.
+                </p>
+
+            </div>
 
         </div>
     </div>
