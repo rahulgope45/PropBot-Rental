@@ -46,7 +46,7 @@ useEffect(() =>{
           {/* First image with overlay */}
           <div className="relative">
             <img
-              className='w-[650px] h-[478px]'
+              className='w-[650px] h-[478px] object-cover'
               src={featured[0].image}
               alt={featured[0].name}
             />
@@ -58,7 +58,7 @@ useEffect(() =>{
 
           <img
             
-            className='w-[307px] h-[478px]'
+            className='w-[307px] h-[478px] object-cover'
             src={featured[1].image}
             alt={featured[1].name}
           />
@@ -68,13 +68,13 @@ useEffect(() =>{
           <img
             src={featured[4].image}
             alt={featured[4].name}
-            className='w-[309px] h-[226px]'
+            className='w-[309px] h-[226px] object-cover'
             
           />
           <img
             src={featured[6].image}
             alt={featured[6].name}
-            className='w-[309px] h-[226px]'
+            className='w-[309px] h-[226px] object-cover'
             
           />
         </div>
