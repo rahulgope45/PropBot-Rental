@@ -15,7 +15,7 @@ useEffect(() =>{
   (async () =>{
     try {
       const data = await fetchProperties();
-      setFeatured(data.slice(0,8))
+      setFeatured(data.slice(0,25))
       
     } catch (error) {
       console.log("Failed to fetch Featured data",error);
@@ -47,8 +47,8 @@ useEffect(() =>{
           <div className="relative">
             <img
               className='w-[650px] h-[478px] object-cover'
-              src={featured[0].image}
-              alt={featured[0].name}
+              src={featured[11].image}
+              alt={featured[11].name}
             />
             <div className="absolute bottom-6 left-6 text-white">
               <p className="text-sm font-medium">{featured[0].name}</p>
