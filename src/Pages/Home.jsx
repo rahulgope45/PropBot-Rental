@@ -21,6 +21,14 @@ function Home() {
           alt="banner"
           className="w-full h-full object-cover rounded-xl z-0"
         />
+        <div className="absolute left-1/2 transform -translate-x-1/2 bottom-100 z-35 text-white text-center mx-auto  w-[900px]">
+          <p className='text-5xl font-bold mb-2'>
+          Find Your Dream Home in One Click!
+          </p>
+          <p>
+          Discover, Buy, or Rent Verified Properties with Ease.
+          </p>
+        </div>
 
         <div className="absolute left-1/2 transform -translate-x-1/2 bottom-20 z-20 flex gap-100 ">
         {/* Search box overlay - centered, sits above image */}
