@@ -2,6 +2,7 @@ import React from 'react'
 import icon from '/icon.png'
 import external1 from '/external1.png'
 import house1 from '/house1.png'
+import { NavLink } from 'react-router-dom'
 
 
 function NavBar() {
@@ -15,8 +16,8 @@ function NavBar() {
 
       {/* Menu Links */}
       <div className="flex h-16 items-center gap-6 text-gray-700 font-medium">
-        <p className="hover:text-blue-700 cursor-pointer">Home</p>
-        <p className="hover:text-blue-700 cursor-pointer">Buy</p>
+        <NavLink to="/" className="hover:text-blue-700 cursor-pointer">Home</NavLink>
+        <NavLink to="/buy" className="hover:text-blue-700 cursor-pointer">Buy</NavLink>
         <p className="hover:text-blue-700 cursor-pointer">Rent</p>
         <p className="hover:text-blue-700 cursor-pointer">Sell</p>
         <p className="hover:text-blue-700 cursor-pointer">About Us</p>
