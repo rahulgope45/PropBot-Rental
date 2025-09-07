@@ -1,5 +1,6 @@
 import React from 'react'
 import icon from '/icon.png'
+import { NavLink } from 'react-router-dom'
 
 function AuthNavbar() {
     return (
@@ -8,7 +9,7 @@ function AuthNavbar() {
             {/* Left: Back to Homepage */}
             <div className="flex items-center gap-2 cursor-pointer hover:text-blue-700 transition border border-blue-900 rounded-full p-2">
                 <i className="bi bi-arrow-left-circle text-gray-700 text-xl"></i>
-                <p className="text-gray-700 font-medium">Back to Homepage</p>
+                <NavLink className="text-gray-700 font-medium" to='/'>Back to Homepage</NavLink>
             </div>
 
             {/* Center: Logo + Title */}
@@ -19,7 +20,7 @@ function AuthNavbar() {
 
             {/* Right: About Us */}
             <div className="flex items-center gap-2 cursor-pointer hover:text-blue-700 transition bg-blue-900 rounded-full p-3">
-                <p className="text-white font-medium">About Us</p>
+                <NavLink className="text-white font-medium" to='/'>About Us</NavLink>
                 <i className="bi bi-arrow-right-circle text-white text-xl"></i>
             </div>
         </div>

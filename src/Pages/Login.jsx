@@ -6,6 +6,7 @@ import loginbanner from '/loginbanner.png'
 import google from '/google.png'
 import facebook from '/facebook.png'
 import apple from '/apple.png'
+import { NavLink } from 'react-router-dom'
 
 function Login() {
     const [isChecked, setIsChecked] = useState(false);
@@ -112,9 +113,9 @@ function Login() {
                 {/* Footer */}
                 <p className="mt-6 text-gray-600 text-xl text-center font-bold">
                     Don't have an account?{" "}
-                    <span className="text-blue-700 font-bold cursor-pointer hover:underline text-xl ">
+                    <NavLink className="text-blue-700 font-bold cursor-pointer hover:underline text-xl " to='/signup'>
                         Create One
-                    </span>
+                    </NavLink>
                 </p>
             </div>
 

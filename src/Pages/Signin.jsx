@@ -2,6 +2,7 @@ import React from 'react'
 import email from '/email.png'
 import eye from '/eye.png'
 import loginbanner from '/loginbanner.png'
+import { NavLink } from 'react-router-dom'
 
 function Signin() {
   return (
@@ -86,9 +87,9 @@ function Signin() {
         {/* Footer */}
         <p className="mt-6 text-gray-600 text-sm text-center">
           Already have an account?{" "}
-          <span className="text-blue-700 font-medium cursor-pointer hover:underline ">
+          <NavLink className="text-blue-700 font-medium cursor-pointer hover:underline " to='/login'>
             Log In
-          </span>
+          </NavLink>
         </p>
       </div>
 

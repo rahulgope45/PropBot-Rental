@@ -9,10 +9,10 @@ function NavBar() {
   return (
     <div className="flex items-center justify-between px-10 py-6">
       {/* Logo + Title */}
-      <div className="flex h-16 items-center gap-3">
+      <NavLink className="flex h-16 items-center gap-3" to='/'>
         <img src={icon} alt="icon" className="h-12 w-12 object-contain" />
         <h1 className="text-2xl font-extrabold text-gray-800">PropBot</h1>
-      </div>
+      </NavLink>
 
       {/* Menu Links */}
       <div className="flex h-16 items-center gap-6 text-gray-700 font-medium">
@@ -37,10 +37,10 @@ function NavBar() {
 
       {/* Login Button */}
       <div>
-        <button className="flex items-center gap-2 px-6 py-2 rounded-full bg-blue-900 text-white font-semibold hover:bg-blue-700 transition">
+        <NavLink className="flex items-center gap-2 px-6 py-2 rounded-full bg-blue-900 text-white font-semibold hover:bg-blue-700 transition" to='/signup'>
           Login / Register
           <i className="bi bi-arrow-right-circle text-lg"></i>
-        </button>
+        </NavLink>
       </div>
 
       {/* Lower Search Bar */}
