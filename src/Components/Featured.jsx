@@ -51,8 +51,8 @@ useEffect(() =>{
               alt={featured[11].name}
             />
             <div className="absolute bottom-6 left-6 text-white">
-              <p className="text-sm font-medium">{featured[0].name}</p>
-              <p className="text-lg font-semibold">{featured[0].country}, {featured[0].city}</p>
+              <p className="text-sm font-medium">{featured[11].name}</p>
+              <p className="text-lg font-semibold">{featured[11].country}, {featured[11].city}</p>
             </div>
           </div>
 
