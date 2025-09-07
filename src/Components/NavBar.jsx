@@ -16,8 +16,19 @@ function NavBar() {
 
       {/* Menu Links */}
       <div className="flex h-16 items-center gap-6 text-gray-700 font-medium">
-        <NavLink to="/" className="hover:text-blue-700 cursor-pointer">Home</NavLink>
-        <NavLink to="/buy" className="hover:text-blue-700 cursor-pointer">Buy</NavLink>
+        <NavLink to="/" className={({ isActive }) =>
+          `hover:text-blue-700 cursor-pointer ${isActive ? 'border-b-2 border-blue-500 text-blue-700' : ''
+          }`
+        }
+        >Home</NavLink>
+        <NavLink to="/buy"
+        className={({ isActive }) =>
+          `hover:text-blue-700 cursor-pointer ${isActive ? 'border-b-2 border-blue-500 text-blue-700' : ''
+          }`
+        }
+        >
+        
+        Buy</NavLink>
         <p className="hover:text-blue-700 cursor-pointer">Rent</p>
         <p className="hover:text-blue-700 cursor-pointer">Sell</p>
         <p className="hover:text-blue-700 cursor-pointer">About Us</p>
