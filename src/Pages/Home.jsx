@@ -8,6 +8,7 @@ import BestProperty from '../Components/BestProperty'
 import PerfectRentedH from '../Components/PerfectRentedH'
 import StartYourJ from '../Components/StartYourJ'
 import WeProvide from '../Components/WeProvide'
+import nativebanner from '/nativebanner.jpg'
 
 function Home() {
   return (
