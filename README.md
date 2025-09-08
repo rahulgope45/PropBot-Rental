@@ -48,6 +48,9 @@ Setup environment variables
 
 ```bash
   VITE_API_URL=https://68b826bcb715405043274639.mockapi.io/api/properties/PropertyListing
+```
+
+
 
 ## Screenshots
 
