@@ -51,7 +51,26 @@ Setup environment variables
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+### Homepage
+![Homepage Screenshot](/screenshots/home.png)
+
+### Login Page
+![Login Screenshot](/screenshots/login.png)
+
+### Sigin Page
+![Login Screenshot](/screenshots/signin.png)
+
+### Buy Page
+![Login Screenshot](/screenshots/Buy.png)
+
+### Bestproperties Section
+![Login Screenshot](/screenshots/bestproperties.png)
+
+### Featured
+![Login Screenshot](/screenshots/featured.png)
+
+### Rental
+![Login Screenshot](/screenshots/rental.png)
 
 
 ## Acknowledgements
