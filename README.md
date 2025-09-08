@@ -52,25 +52,25 @@ Setup environment variables
 ## Screenshots
 
 ### Homepage
-![Homepage Screenshot](public/screenshots/home.png)
+![Homepage Screenshot](assets/screenshots/home.png)
 
 ### Login Page
-![Login Screenshot](public/screenshots/login.png)
+![Login Screenshot](assets/screenshots/login.png)
 
 ### Signin Page
-![Signin Screenshot](public/screenshots/signin.png)
+![Signin Screenshot](assets/screenshots/signin.png)
 
 ### Buy Page
-![Buy Screenshot](public/screenshots/Buy.png)
+![Buy Screenshot](assets/screenshots/Buy.png)
 
 ### Best Properties Section
-![Best Properties Screenshot](public/screenshots/bestproperties.png)
+![Best Properties Screenshot](assets/screenshots/bestproperties.png)
 
 ### Featured
-![Featured Screenshot](public/screenshots/featured.png)
+![Featured Screenshot](assets/screenshots/featured.png)
 
 ### Rental
-![Rental Screenshot](public/screenshots/rental.png)
+![Rental Screenshot](assets/screenshots/rental.png)
 
 
 ## Acknowledgements
