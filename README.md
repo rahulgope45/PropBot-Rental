@@ -52,7 +52,7 @@ Setup environment variables
 ## Screenshots
 
 ### Homepage
-![Homepage Screenshot](assets/screenshots/home.png)
+<img src="assets/screenshots/home.png" width="800" />
 
 ### Login Page
 ![Login Screenshot](assets/screenshots/login.png)
