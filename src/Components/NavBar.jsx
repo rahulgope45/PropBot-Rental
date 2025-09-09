@@ -85,32 +85,45 @@ function NavBar() {
 
       {/* Mobile Dropdown */}
       {isMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-white border-t shadow-lg px-6 py-4 space-y-4 md:hidden z-20">
-          <NavLink to="/" className="block py-2 border-b">Home</NavLink>
-          <NavLink to="/buy" className="block py-2 border-b">Buy</NavLink>
-          <p className="block py-2 border-b">Rent</p>
-          <p className="block py-2 border-b">Sell</p>
-          <p className="block py-2 border-b">About Us</p>
-          <p className="block py-2 border-b">Contact Us</p>
+  <div className="fixed inset-0 z-50 bg-white flex flex-col px-6 py-10 space-y-6 md:hidden">
+    {/* Close button top-right */}
+    <button
+      className="absolute top-4 right-4 text-3xl text-gray-700"
+      onClick={() => setIsMenuOpen(false)}
+    >
+      <i className="bi bi-x-lg"></i>
+    </button>
 
-          {userLoggedIn ? (
-            <button
-              onClick={handleLogout}
-              className="w-full flex items-center justify-center gap-2 px-6 py-2 rounded-full bg-red-600 text-white font-semibold hover:bg-red-500 transition"
-            >
-              Logout <i className="bi bi-box-arrow-right text-lg"></i>
-            </button>
-          ) : (
-            <NavLink
-              to="/signup"
-              className="w-full flex items-center justify-center gap-2 px-6 py-2 rounded-full bg-blue-900 text-white font-semibold hover:bg-blue-700 transition"
-            >
-              Login / Register
-              <i className="bi bi-arrow-right-circle text-lg"></i>
-            </NavLink>
-          )}
-        </div>
+    {/* Links */}
+    <NavLink to="/" className="block text-lg font-medium border-b pb-2">Home</NavLink>
+    <NavLink to="/buy" className="block text-lg font-medium border-b pb-2">Buy</NavLink>
+    <p className="block text-lg font-medium border-b pb-2">Rent</p>
+    <p className="block text-lg font-medium border-b pb-2">Sell</p>
+    <p className="block text-lg font-medium border-b pb-2">About Us</p>
+    <p className="block text-lg font-medium border-b pb-2">Contact Us</p>
+
+    {/* Auth */}
+    <div className="mt-6">
+      {userLoggedIn ? (
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-red-600 text-white font-semibold hover:bg-red-500 transition"
+        >
+          Logout <i className="bi bi-box-arrow-right text-lg"></i>
+        </button>
+      ) : (
+        <NavLink
+          to="/signup"
+          className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-blue-900 text-white font-semibold hover:bg-blue-700 transition"
+        >
+          Login / Register
+          <i className="bi bi-arrow-right-circle text-lg"></i>
+        </NavLink>
       )}
+    </div>
+  </div>
+)}
+
 
       {/* Lower Search Bar (unchanged, just hidden on small) */}
       <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-142 z-10 hidden md:flex">
