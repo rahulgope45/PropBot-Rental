@@ -28,11 +28,14 @@ function BestProperty() {
 
   return (
     <div className='mt-25'>
-      <div className='flex justify-between px-10 py-3 '>
-        <p className='text-5xl text-blue-900 font-bold '>
+      <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4  px-6 sm:px-10 py-4 '>
+        <p className='text-3xl sm:text-5xl text-blue-900 font-bold '>
           Best Properties Available For Sale
         </p>
-        <button className="bg-blue-900 px-3 py-1 rounded-full border border-blue-900 shadow-md font-medium text-white text-1.75xl hover:bg-blue-700 h-[47px] w-[260px] flex justify-center items-center gap-2">
+        <button className="bg-blue-900 px-3 py-1 rounded-full border border-blue-900 shadow-md 
+                           font-medium text-white text-base sm:text-xl 
+                           hover:bg-blue-700 h-[42px] sm:h-[47px] w-full sm:w-[260px] 
+                           flex justify-center items-center gap-2">
           View More Properties
         </button>
       </div>

@@ -21,7 +21,7 @@ function Aboutus() {
 
       
       {/* Card section */}
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
+      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-10">
         
         {/* 1st card */}
         <div className="w-full bg-gray-100 rounded-2xl shadow-md flex flex-col items-center justify-center text-center p-6 space-y-2">
