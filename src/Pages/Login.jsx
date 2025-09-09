@@ -60,8 +60,8 @@ function Login() {
   return (
     <div className="flex min-h-screen mb-16">
       {/* Left Form Section */}
-      <div className="flex flex-col justify-center w-1/2 px-20 bg-white">
-        <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center ">
+      <div className="flex flex-col justify-center w-full sm:w-1/2 px-6 sm:px-20 bg-white">
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-8 text-center ">
           Log In
         </h1>
 
@@ -132,7 +132,7 @@ function Login() {
           <button
             onClick={onSubmit}
             disabled={isSigningIn}
-            className="bg-blue-900 text-white py-3 rounded-full font-semibold text-lg hover:bg-blue-700 transition w-[417px]"
+            className="bg-blue-900 text-white py-3 rounded-full font-semibold text-lg hover:bg-blue-700 transition w-full sm:w-[417px]"
           >
             {isSigningIn ? "Logging in..." : "Log In"}
           </button>
@@ -170,8 +170,8 @@ function Login() {
         </p>
       </div>
 
-      {/* Right Image Section */}
-      <div className="w-1/2">
+      {/* Right Image Section (hidden on small screens) */}
+      <div className="hidden sm:block w-1/2">
         <img
           src={loginbanner}
           alt="login banner"
