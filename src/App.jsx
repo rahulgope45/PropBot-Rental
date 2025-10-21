@@ -9,6 +9,7 @@ import Footer from './Components/Footer'
 import Signin from './Pages/Signin'
 import Login from './Pages/Login'
 import AuthNavbar from './Components/AuthNavbar'
+import Sell from './Pages/Sell'
 
 
 
@@ -30,6 +31,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/buy' element={<Buy />} />
+          <Route path='/sell' element={<Sell/>}/>
           <Route path='/signup' element={<Signin />} />
           <Route path='/login' element={<Login />} />
           <Route path="*" element={<Navigate to="/" />} />
