@@ -10,6 +10,7 @@ import Signin from './Pages/Signin'
 import Login from './Pages/Login'
 import AuthNavbar from './Components/AuthNavbar'
 import Sell from './Pages/Sell'
+import toast, { Toaster } from 'react-hot-toast';
 
 
 

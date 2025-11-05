@@ -1,61 +1,60 @@
 import React, { useState } from "react";
-import {
-  doSignInWithEmailAndPassword,
-  doSignInWithGoogle,
-} from "../firebase/auth";
+import { AUTH_BASR_URL } from "../Services/consfig";
 import { useAuth } from "../context/authContext";
+
 import emailIcon from "/email.png";
 import eye from "/eye.png";
 import loginbanner from "/loginbanner.png";
 import google from "/google.png";
 import facebook from "/facebook.png";
 import apple from "/apple.png";
-import { Navigate, NavLink } from "react-router-dom";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 function Login() {
+  const {setUserLoggedIn ,setUser} = useAuth();
   const [isChecked, setIsChecked] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { userLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
   const handleChecked = (event) => {
     setIsChecked(event.target.checked);
   };
 
-  // Email/Password login
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (!isSigningIn) {
-      setIsSigningIn(true);
-      try {
-        await doSignInWithEmailAndPassword(email, password);
-      } catch (err) {
-        setErrorMessage(err.message);
-        setIsSigningIn(false);
-      }
+async function handleLogin(e) {
+  e.preventDefault();
+  setIsSigningIn(true);
+  try {
+    const result = await axios.post(
+      `${AUTH_BASR_URL}/login`,
+      {email, password},
+      { withCredentials: true}
+    )
+    if(result.status === 200){
+      setUser(result.data.user);
+      setUserLoggedIn(true)
+      toast.success("Login Success")
+      console.log("Login Success", result.data)
+      navigate("/");
     }
-  };
+  } catch (error) {
 
-  // Google login
-  const onGoogleSignIn = async (e) => {
-    e.preventDefault();
-    if (!isSigningIn) {
-      setIsSigningIn(true);
-      try {
-        await doSignInWithGoogle();
-      } catch (err) {
-        setErrorMessage(err.message);
-        setIsSigningIn(false);
-      }
-    }
-  };
+    if(error.response && error.response.status === 401){
+      toast.error("Invalid credentials")
+    }else{
+      console.log("Login Error",error)
+    } 
+    }finally{
+      setIsSigningIn(false)
+  }  
+}
 
-  if (userLoggedIn) {
-    return <Navigate to={"/"} replace={true} />;
-  }
+  
 
   return (
     <div className="flex min-h-screen mb-16">
@@ -130,7 +129,7 @@ function Login() {
         {/* Login Button */}
         <div className="flex item-center justify-center">
           <button
-            onClick={onSubmit}
+            onClick={handleLogin}
             disabled={isSigningIn}
             className="bg-blue-900 text-white py-3 rounded-full font-semibold text-lg hover:bg-blue-700 transition w-full sm:w-[417px]"
           >
@@ -152,7 +151,7 @@ function Login() {
           <img src={apple} className="w-[31px] h-[37px]" />
           <img src={facebook} className="w-[31px] h-[37px]" />
           <img
-            onClick={onGoogleSignIn}
+           
             src={google}
             className="w-[31px] h-[37px] cursor-pointer"
           />

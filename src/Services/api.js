@@ -1,4 +1,5 @@
 import axios from "axios";
+import { AUTH_BASR_URL } from "./consfig";
 
 const BASE = import.meta.env.VITE_API_URL;
 

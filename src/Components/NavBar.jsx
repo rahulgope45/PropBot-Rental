@@ -3,20 +3,39 @@ import icon from '/icon.png'
 import external1 from '/external1.png'
 import house1 from '/house1.png'
 import { NavLink } from 'react-router-dom'
+import { AUTH_BASR_URL } from '../Services/consfig'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 import { useAuth } from '../context/authContext'
-import { doSignOut } from '../firebase/auth'
+
 
 function NavBar() {
-  const { userLoggedIn } = useAuth()
+  const { userLoggedIn, setUserLoggedIn, setUser } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  const handleLogout = async () => {
-    try {
-      await doSignOut()
-    } catch (err) {
-      console.error("Logout failed:", err)
+
+async function handleLogout(e) {
+  e.preventDefault();
+  try {
+    const result =await axios.post(`${AUTH_BASR_URL}/logout`,
+    )
+    if(result.status === 200){
+      setUser(null)
+      setUserLoggedIn(false)
+      toast.success("Logout Succesfully")
+      console.log("Logout Succesfully")
+      
     }
+  } catch (error) {
+    if(error.response && error.response.status === 401){
+      toast.error(" Logout failed")
+      console.log("Error in logot",error)
+
+    }
+    
   }
+  
+}
 
   return (
     <div className="flex items-center justify-between px-6 md:px-10 py-6 relative">

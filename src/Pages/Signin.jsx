@@ -3,13 +3,15 @@ import emailIcon from "/email.png";
 import eye from "/eye.png";
 import loginbanner from "/loginbanner.png";
 import { NavLink, useNavigate } from "react-router-dom";
-import { doCreateUserWithEmailAndPassword } from "../firebase/auth";
-import { useAuth } from "../context/authContext";
+
+import { AUTH_BASR_URL } from "../Services/consfig";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 function Signin() {
   const navigate = useNavigate();
-  const { userLoggedIn } = useAuth();
 
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -18,22 +20,34 @@ function Signin() {
   async function handleSignup(e) {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-      setErrorMessage("Passwords do not match");
-      return;
-    }
+  try {
+    const result = await axios.post(
+      `${AUTH_BASR_URL}/signup`,
+      {
+        fullName: userName, email,password,confirmPassword
+      },
+      {
+        withCredentials:true
+      }
+      
 
-    try {
-      await doCreateUserWithEmailAndPassword(email, password);
-      navigate("/"); // redirect after signup
-    } catch (err) {
-      setErrorMessage(err.message);
+    );
+    if(result.status === 201){
+        toast.success("Signup Success");
+        console.log("Signup Success",result.data)
+        navigate("/login");
+      }
+  } catch (error) {
+    if(error.responce && error.responce.status === 400){
+      toast.error("Email already exists. Please use a different email");
+    }else{
+      console.error("signup error",error);
     }
+    
+  }
   }
 
-  if (userLoggedIn) {
-    navigate("/"); // already logged in
-  }
+  
 
   return (
     <div className="flex min-h-screen mb-16">
@@ -46,6 +60,20 @@ function Signin() {
         {errorMessage && (
           <p className="text-red-600 text-sm mb-4">{errorMessage}</p>
         )}
+
+        <div className="mb-5">
+          <p className="text-sm font-medium text-gray-700 mb-2">Full Name</p>
+          <div className="relative">
+            <input
+              type="text"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              placeholder="Enter Your Name"
+              className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+            
+          </div>
+        </div>
 
         {/* Email */}
         <div className="mb-5">
