@@ -7,6 +7,7 @@ import { AUTH_BASR_URL } from '../Services/consfig'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useAuth } from '../context/authContext'
+import Select from 'react-select'
 
 
 function NavBar() {
@@ -14,28 +15,46 @@ function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
 
-async function handleLogout(e) {
-  e.preventDefault();
-  try {
-    const result =await axios.post(`${AUTH_BASR_URL}/logout`,
-    )
-    if(result.status === 200){
-      setUser(null)
-      setUserLoggedIn(false)
-      toast.success("Logout Succesfully")
-      console.log("Logout Succesfully")
-      
-    }
-  } catch (error) {
-    if(error.response && error.response.status === 401){
-      toast.error(" Logout failed")
-      console.log("Error in logot",error)
+  //Options For SE
+  const typePropertyOption = [
+    { value: "rent", label: "Rent" },
+    { value: "buy", label: "Buy" },
+  ];
+  const typeHouse = [
+    {value:'house', label: "House"},
+    {value:'apartment', label: "Apartment"},
+    {value:'villa', label: "Villa"},
+    {value:'land', label: "Land"},
+    {value:'commercial', label: "Commercial"},
+    {value:'office', label: "Office"} 
+  ];
+  const LocationOptions = [];
+
+
+
+
+  async function handleLogout(e) {
+    e.preventDefault();
+    try {
+      const result = await axios.post(`${AUTH_BASR_URL}/logout`,
+      )
+      if (result.status === 200) {
+        setUser(null)
+        setUserLoggedIn(false)
+        toast.success("Logout Succesfully")
+        console.log("Logout Succesfully")
+
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error(" Logout failed")
+        console.log("Error in logot", error)
+
+      }
 
     }
-    
+
   }
-  
-}
 
   return (
     <div className="flex items-center justify-between px-6 md:px-10 py-6 relative">
@@ -151,23 +170,96 @@ async function handleLogout(e) {
 
       {/* Lower Search Bar (unchanged, just hidden on small) */}
       <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-142 z-10 hidden md:flex">
-        <div className="flex items-center justify-center bg-white rounded-full border border-gray-300 shadow-lg overflow-hidden 
+        <div className="flex items-center justify-center bg-white rounded-full border border-gray-300 shadow-lg  
                         w-[1106px] h-[80px] gap-4">
           {/* Each filter option */}
-          <div className="w-[243px] flex items-center justify-between px-4 py-3 border border-gray-300 font-medium text-gray-700 rounded-full">
+          <div className="w-[243px] h-[55px] flex items-center justify-between px-4 py-3 border border-gray-300 font-medium text-gray-700 rounded-full">
             <div className="flex items-center gap-2">
               <img src={external1} className="h-5 w-5 object-contain" />
-              <p>For Rent</p>
+              <div className='w-[120px] '>
+                <Select
+                  placeholder="Property For"
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      border: "none",
+                      boxShadow: "none",
+                      backgroundColor: "transparent",
+                      minHeight: "unset",
+                      cursor: "pointer",
+                      position: "relative"
+
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+                      color: "#4B5563",            // Tailwind gray-700
+                      position: "absolute",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      right: "-60px",
+                      padding: 0,
+
+                    }),
+                    indicatorSeparator: () => ({
+                      display: "none",             // remove separator line
+                    }),
+                    menu: (base) => ({
+                      ...base,
+                      borderRadius: "0.75rem",     // rounded-lg
+                      marginTop: "0.5rem",
+                    }),
+
+
+                  }}
+                  options={typePropertyOption} />
+              </div>
             </div>
-            <i className="bi bi-chevron-down ml-6"></i>
+
           </div>
 
           <div className="w-[243px] flex items-center justify-between px-4 py-3 border border-gray-300 font-medium text-gray-700 rounded-full">
             <div className="flex items-center gap-2">
               <img src={house1} className="h-5 w-5 object-contain" />
-              <p>House</p>
+              <div className='w-[120px] '>
+                <Select
+                  placeholder="Type"
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      border: "none",
+                      boxShadow: "none",
+                      backgroundColor: "transparent",
+                      minHeight: "unset",
+                      cursor: "pointer",
+                      position: "relative"
+
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+                      color: "#4B5563",            // Tailwind gray-700
+                      position: "absolute",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      right: "-60px",
+                      padding: 0,
+
+                    }),
+                    indicatorSeparator: () => ({
+                      display: "none",             // remove separator line
+                    }),
+                    menu: (base) => ({
+                      ...base,
+                      borderRadius: "0.75rem",     // rounded-lg
+                      marginTop: "0.5rem",
+                    }),
+
+
+                  }}
+                  options={typeHouse} />
+              </div>
+
             </div>
-            <i className="bi bi-chevron-down ml-6"></i>
+            
           </div>
 
           <div className="w-[243px] flex items-center justify-between px-4 py-3 border border-gray-300 font-medium text-gray-700 rounded-full">
