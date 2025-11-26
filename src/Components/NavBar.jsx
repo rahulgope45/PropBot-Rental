@@ -28,7 +28,21 @@ function NavBar() {
     {value:'commercial', label: "Commercial"},
     {value:'office', label: "Office"} 
   ];
-  const LocationOptions = [];
+  const LocationOptions = [
+  { value: "hingewadi-pune", label: "Hingewadi, Pune" },
+  { value: "akurdi-pune", label: "Akurdi, Pune" },
+  { value: "kothrud-pune", label: "Kothrud, Pune" },
+  { value: "bandra-mumbai", label: "Bandra, Mumbai" },
+  { value: "andheri-mumbai", label: "Andheri, Mumbai" },
+  { value: "dadar-mumbai", label: "Dadar, Mumbai" },
+  { value: "saket-delhi", label: "Saket, Delhi" },
+  { value: "karolbagh-delhi", label: "Karol Bagh, Delhi" },
+  { value: "koramangala-bangalore", label: "Koramangala, Bangalore" },
+  { value: "indiranagar-bangalore", label: "Indiranagar, Bangalore" },
+  { value: "saltlake-kolkata", label: "Salt Lake, Kolkata" },
+  { value: "newtown-kolkata", label: "New Town, Kolkata" },
+];
+
 
 
 
@@ -265,9 +279,46 @@ function NavBar() {
           <div className="w-[243px] flex items-center justify-between px-4 py-3 border border-gray-300 font-medium text-gray-700 rounded-full">
             <div className="flex items-center gap-2">
               <i className="bi bi-crosshair"></i>
-              <p>Location</p>
+              <div className='w-[120px] '>
+                <Select
+                  placeholder="Location"
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      border: "none",
+                      boxShadow: "none",
+                      backgroundColor: "transparent",
+                      minHeight: "unset",
+                      cursor: "pointer",
+                      position: "relative"
+
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+                      color: "#4B5563",            // Tailwind gray-700
+                      position: "absolute",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      right: "-60px",
+                      padding: 0,
+
+                    }),
+                    indicatorSeparator: () => ({
+                      display: "none",             // remove separator line
+                    }),
+                    menu: (base) => ({
+                      ...base,
+                      borderRadius: "0.75rem",     // rounded-lg
+                      marginTop: "0.5rem",
+                      width: "200px"
+                    }),
+
+
+                  }}
+                  options={LocationOptions} />
+              </div>
             </div>
-            <i className="bi bi-chevron-down ml-6"></i>
+            
           </div>
 
           {/* Button */}

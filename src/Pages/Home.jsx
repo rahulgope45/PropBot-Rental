@@ -9,8 +9,27 @@ import PerfectRentedH from '../Components/PerfectRentedH'
 import StartYourJ from '../Components/StartYourJ'
 import WeProvide from '../Components/WeProvide'
 import nativebanner from '/nativebanner.jpg'
+import { NavLink } from 'react-router-dom'
+import Select from 'react-select';
 
 function Home() {
+
+const LocationOptions = [
+  { value: "hingewadi-pune", label: "Hingewadi, Pune" },
+  { value: "akurdi-pune", label: "Akurdi, Pune" },
+  { value: "kothrud-pune", label: "Kothrud, Pune" },
+  { value: "bandra-mumbai", label: "Bandra, Mumbai" },
+  { value: "andheri-mumbai", label: "Andheri, Mumbai" },
+  { value: "dadar-mumbai", label: "Dadar, Mumbai" },
+  { value: "saket-delhi", label: "Saket, Delhi" },
+  { value: "karolbagh-delhi", label: "Karol Bagh, Delhi" },
+  { value: "koramangala-bangalore", label: "Koramangala, Bangalore" },
+  { value: "indiranagar-bangalore", label: "Indiranagar, Bangalore" },
+  { value: "saltlake-kolkata", label: "Salt Lake, Kolkata" },
+  { value: "newtown-kolkata", label: "New Town, Kolkata" },
+];
+
+
   return (
     <div>
       <div className="flex justify-center items-center mb-10">
@@ -48,7 +67,7 @@ function Home() {
               <div className="flex items-center gap-1 sm:gap-4 bg-white 
                   px-2 sm:px-6 
                   h-[50px] sm:h-[72px] 
-                  border rounded-lg shadow-lg">
+                  border rounded-lg shadow-lg relative">
 
                 {/* Left geo icon */}
                 <img
@@ -57,31 +76,58 @@ function Home() {
                   className="h-4 w-4 sm:h-6 sm:w-6 object-contain flex-shrink-0"
                 />
 
-                {/* Input */}
-                <input
-                  type="text"
-                  placeholder="Search Location"
-                  className="flex-1 w-full px-2 sm:px-4 
-                 text-gray-900 focus:outline-none 
-                 text-sm sm:text-base"
+                
+                <Select
+                placeholder="Search Location"
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      border: "none",
+                      boxShadow: "none",
+                      backgroundColor: "transparent",
+                      minHeight: "unset",
+                      cursor: "pointer",
+                      position: "relative",
+                      
+
+                    }),
+                    dropdownIndicator: () => ({
+                      display: "none"
+
+                    }),
+                    indicatorSeparator: () => ({
+                      display: "none",             // remove separator line
+                    }),
+                    menu: (base) => ({
+                      ...base,
+                      borderRadius: "0.75rem",     // rounded-lg
+                      marginTop: "0.5rem",
+                    }),
+
+
+                  }}
+                  options={LocationOptions} 
                 />
 
                 {/* Right search icon */}
                 <img
                   src={search1}
                   alt="search"
-                  className="h-4 w-4 sm:h-6 sm:w-6 object-contain cursor-pointer flex-shrink-0"
+                  className="h-4 w-4 sm:h-6 sm:w-6 object-contain cursor-pointer absolute right-[30px] top-1/2 -translate-y-1/2"
                 />
               </div>
             </div>
 
 
             {/* List Your Property button */}
-            <button className="bg-white px-2 py-1 sm:px-3 sm:py-1 rounded-full border border-blue-900 shadow-md 
+            <NavLink className="bg-white px-2 py-1 sm:px-3 sm:py-1 rounded-full border border-blue-900 shadow-md 
                                font-medium text-blue-700 text-sm sm:text-xl hover:bg-gray-50 
-                               h-[50px] w-[194px] sm:h-[62px] sm:w-[450px] flex justify-center items-center">
+                               h-[50px] w-[194px] sm:h-[62px] sm:w-[450px] flex justify-center items-center
+                               cursor-pointer"
+                               to="/sell"
+                               >
               List Your Property
-            </button>
+            </NavLink>
           </div>
         </div>
       </div>
