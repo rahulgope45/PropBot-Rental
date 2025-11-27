@@ -1,12 +1,12 @@
 import React from 'react'
-import banner from '/bannerBuy5.jpg'
+import banner from '/bannerRent.jpg'
 import Geo1 from '/Geo1.png'
 import search1 from '/search1.png'
 import Featuredbuy from '../Components/Featuredbuy'
 import nativebanner from '/nativeBuy.jpg'
 
-function Buy() {
-  return (  
+function Rent() {
+  return (
     <div>
       <div>
         <div className="flex justify-center items-center mb-10">
@@ -30,7 +30,7 @@ function Buy() {
               <div className="w-[90%] max-w-[820px]">
                 <div className="px-2 sm:px-6 py-3 sm:py-4 w-full sm:w-[900px]">
                   <p className="text-white text-2xl sm:text-5xl font-bold text-center sm:text-left">
-                    Featured Properties For Sale
+                    Featured Properties For Rent
                   </p>
                   <p className="text-white text-base text-1xl sm:text-[20px] mt-2 text-center sm:text-left">
                     Discover, Buy, or Rent Verified Properties with Ease.
@@ -56,4 +56,4 @@ function Buy() {
   )
 }
 
-export default Buy
+export default Rent

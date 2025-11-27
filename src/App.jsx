@@ -13,6 +13,7 @@ import Sell from './Pages/Sell'
 import toast, { Toaster } from 'react-hot-toast';
 import { useAuth } from './context/authContext'
 import Navbar3 from './Components/Navbar3'
+import Rent from './Pages/Rent'
 
 
 
@@ -47,6 +48,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/buy' element={<Buy />} />
+          <Route path='/rent' element={<Rent/>}/>
           <Route path='/sell' element={userLoggedIn? <Sell/> : <Navigate to="/login"/>}
           
           />
