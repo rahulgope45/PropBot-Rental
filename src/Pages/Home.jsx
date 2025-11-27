@@ -63,10 +63,10 @@ const LocationOptions = [
 
             {/* Search box overlay */}
             
-            <div className="w-[92%] max-w-[820px]">
+            <div className="">
               <div className="flex items-center gap-1 sm:gap-4 bg-white 
                   px-2 sm:px-6 
-                  h-[50px] sm:h-[72px] 
+                  h-[50px] sm:w-[520px] sm:h-[72px] 
                   border rounded-lg shadow-lg relative">
 
                 {/* Left geo icon */}
@@ -88,6 +88,7 @@ const LocationOptions = [
                       minHeight: "unset",
                       cursor: "pointer",
                       position: "relative",
+                      width:"450px"
                       
 
                     }),
@@ -102,6 +103,7 @@ const LocationOptions = [
                       ...base,
                       borderRadius: "0.75rem",     // rounded-lg
                       marginTop: "0.5rem",
+                      width:"400px"
                     }),
 
 
@@ -121,8 +123,8 @@ const LocationOptions = [
 
             {/* List Your Property button */}
             <NavLink className="bg-white px-2 py-1 sm:px-3 sm:py-1 rounded-full border border-blue-900 shadow-md 
-                               font-medium text-blue-700 text-sm sm:text-xl hover:bg-gray-50 
-                               h-[50px] w-[194px] sm:h-[62px] sm:w-[450px] flex justify-center items-center
+                               font-medium text-blue-700 text-sm sm:text-xl hover:bg-blue-900 hover:text-white
+                               h-[50px] w-[194px] sm:h-[62px] sm:w-[250px] flex justify-center items-center
                                cursor-pointer"
                                to="/sell"
                                >
