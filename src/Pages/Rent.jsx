@@ -3,7 +3,7 @@ import banner from '/bannerRent.jpg'
 import Geo1 from '/Geo1.png'
 import search1 from '/search1.png'
 import Featuredbuy from '../Components/Featuredbuy'
-import nativebanner from '/nativeBuy.jpg'
+import nativebanner from '/nativeRent.jpg'
 
 function Rent() {
   return (
