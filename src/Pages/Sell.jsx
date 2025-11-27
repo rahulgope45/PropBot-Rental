@@ -2,13 +2,12 @@ import { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { AUTH_BASR_URL } from '../Services/consfig';
+import { PROPERTY_URL, UPLOAD_URL } from '../Services/consfig';
 
 function Sell() {
+  const navigate = useNavigate();
 
-   const navigate = useNavigate();
-
-   const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     title: '',
     description: '',
     propertyType: 'house',
@@ -19,6 +18,7 @@ function Sell() {
       area: '',
       city: '',
       state: '',
+      country: 'India',
       zipCode: ''
     },
     specifications: {
@@ -36,13 +36,13 @@ function Sell() {
     }
   });
 
-
-  // ✅ Images selected by user (NOT uploaded yet)
+  // Images selected by user (NOT uploaded yet)
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   
   // Loading states
   const [submitting, setSubmitting] = useState(false);
+  const [uploadingImages, setUploadingImages] = useState(false);
 
   // Handle file selection
   const handleFileSelect = (e) => {
@@ -87,7 +87,17 @@ function Sell() {
     }
   };
 
-  // ✅ MAIN SUBMIT FUNCTION - Everything happens automatically!
+  // Handle amenities checkbox
+  const handleAmenities = (amenity) => {
+    setFormData(prev => ({
+      ...prev,
+      amenities: prev.amenities.includes(amenity)
+        ? prev.amenities.filter(a => a !== amenity)
+        : [...prev.amenities, amenity]
+    }));
+  };
+
+  // ✅ MAIN SUBMIT FUNCTION
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -97,17 +107,24 @@ function Sell() {
       return;
     }
 
+    if (!formData.title || !formData.description || !formData.price) {
+      toast.error('Please fill all required fields');
+      return;
+    }
+
     setSubmitting(true);
 
     try {
       // STEP 1: Upload images to Cloudinary
+      setUploadingImages(true);
       const formDataForUpload = new FormData();
+      
       selectedFiles.forEach(file => {
         formDataForUpload.append('images', file);
       });
 
       const uploadResponse = await axios.post(
-        `${AUTH_BASR_URL.replace('/auth', '')}/upload`,
+        UPLOAD_URL, // ✅ Clean URL usage
         formDataForUpload,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -116,7 +133,8 @@ function Sell() {
       );
 
       const uploadedImages = uploadResponse.data.images;
-      toast.success(`${uploadedImages.length} images uploaded`);
+      setUploadingImages(false);
+      toast.success(`${uploadedImages.length} images uploaded ✅`);
 
       // STEP 2: Create property with uploaded image URLs
       const propertyData = {
@@ -129,117 +147,157 @@ function Sell() {
         price: Number(formData.price),
         specifications: {
           ...formData.specifications,
-          bedrooms: Number(formData.specifications.bedrooms),
-          bathrooms: Number(formData.specifications.bathrooms),
-          area: Number(formData.specifications.area),
-          parking: Number(formData.specifications.parking)
+          bedrooms: formData.specifications.bedrooms ? Number(formData.specifications.bedrooms) : undefined,
+          bathrooms: formData.specifications.bathrooms ? Number(formData.specifications.bathrooms) : undefined,
+          area: formData.specifications.area ? Number(formData.specifications.area) : undefined,
+          parking: formData.specifications.parking ? Number(formData.specifications.parking) : undefined
         }
       };
 
-      await axios.post(
-        `${AUTH_BASR_URL.replace('/auth', '')}/properties`,
+      const response = await axios.post(
+        PROPERTY_URL, // ✅ Clean URL usage
         propertyData,
         { withCredentials: true }
       );
 
       toast.success('Property listed successfully! 🎉');
+      console.log('Property created:', response.data);
+      
+      // Redirect to home or property details page
       navigate('/');
 
     } catch (error) {
       console.error('Error:', error);
-      toast.error(
-        error.response?.data?.message || 'Failed to create property'
-      );
+      
+      if (error.response) {
+        // Server responded with error
+        toast.error(error.response.data.message || 'Failed to create property');
+      } else if (error.request) {
+        // Request made but no response
+        toast.error('No response from server. Please check your connection.');
+      } else {
+        // Something else happened
+        toast.error('Failed to create property. Please try again.');
+      }
     } finally {
       setSubmitting(false);
+      setUploadingImages(false);
     }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow my-10">
-      <h1 className="text-3xl font-bold mb-6">List Your Property</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">List Your Property</h1>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         
         {/* Basic Info */}
-        <div>
-          <label className="block font-medium mb-2">Property Title *</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            placeholder="e.g. Spacious 3BHK House in Mumbai"
-            className="w-full px-4 py-2 border rounded-lg"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block font-medium mb-2">Description *</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            placeholder="Describe your property..."
-            rows="4"
-            className="w-full px-4 py-2 border rounded-lg"
-            required
-          />
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block font-medium mb-2">Property Type *</label>
-            <select
-              name="propertyType"
-              value={formData.propertyType}
+        <div className="border-b pb-6">
+          <h2 className="text-xl font-semibold mb-4">Basic Information</h2>
+          
+          <div className="mb-4">
+            <label className="block font-medium mb-2">Property Title *</label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg"
+              placeholder="e.g. Spacious 3BHK House in Mumbai"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
               required
-            >
-              <option value="house">House</option>
-              <option value="apartment">Apartment</option>
-              <option value="villa">Villa</option>
-              <option value="land">Land</option>
-              <option value="commercial">Commercial</option>
-              <option value="office">Office</option>
-            </select>
+            />
           </div>
 
-          <div>
-            <label className="block font-medium mb-2">Listing Type *</label>
-            <select
-              name="listingType"
-              value={formData.listingType}
+          <div className="mb-4">
+            <label className="block font-medium mb-2">Description *</label>
+            <textarea
+              name="description"
+              value={formData.description}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg"
+              placeholder="Describe your property in detail..."
+              rows="5"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
               required
-            >
-              <option value="sale">For Sale</option>
-              <option value="rent">For Rent</option>
-            </select>
+            />
           </div>
-        </div>
 
-        <div>
-          <label className="block font-medium mb-2">Price (₹) *</label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            placeholder="Enter price"
-            className="w-full px-4 py-2 border rounded-lg"
-            required
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block font-medium mb-2">Property Type *</label>
+              <select
+                name="propertyType"
+                value={formData.propertyType}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                required
+              >
+                <option value="house">House</option>
+                <option value="apartment">Apartment</option>
+                <option value="villa">Villa</option>
+                <option value="land">Land</option>
+                <option value="commercial">Commercial</option>
+                <option value="office">Office</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2">Listing Type *</label>
+              <select
+                name="listingType"
+                value={formData.listingType}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                required
+              >
+                <option value="sale">For Sale</option>
+                <option value="rent">For Rent</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <label className="block font-medium mb-2">Price (₹) *</label>
+            <input
+              type="number"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+              placeholder="Enter price in rupees"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              required
+            />
+          </div>
         </div>
 
         {/* Address */}
-        <div className="border-t pt-6">
-          <h2 className="text-xl font-semibold mb-4">Location</h2>
+        <div className="border-b pb-6">
+          <h2 className="text-xl font-semibold mb-4">Location Details</h2>
           
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block font-medium mb-2">Street</label>
+              <input
+                type="text"
+                name="address.street"
+                value={formData.address.street}
+                onChange={handleChange}
+                placeholder="Street address"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2">Area</label>
+              <input
+                type="text"
+                name="address.area"
+                value={formData.address.area}
+                onChange={handleChange}
+                placeholder="Area/Locality"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+            </div>
+
             <div>
               <label className="block font-medium mb-2">City *</label>
               <input
@@ -247,7 +305,8 @@ function Sell() {
                 name="address.city"
                 value={formData.address.city}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-lg"
+                placeholder="City"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 required
               />
             </div>
@@ -259,18 +318,31 @@ function Sell() {
                 name="address.state"
                 value={formData.address.state}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-lg"
+                placeholder="State"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 required
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2">Zip Code</label>
+              <input
+                type="text"
+                name="address.zipCode"
+                value={formData.address.zipCode}
+                onChange={handleChange}
+                placeholder="Zip code"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
             </div>
           </div>
         </div>
 
         {/* Specifications */}
-        <div className="border-t pt-6">
-          <h2 className="text-xl font-semibold mb-4">Details</h2>
+        <div className="border-b pb-6">
+          <h2 className="text-xl font-semibold mb-4">Property Details</h2>
           
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <div>
               <label className="block font-medium mb-2">Bedrooms</label>
               <input
@@ -278,7 +350,9 @@ function Sell() {
                 name="specifications.bedrooms"
                 value={formData.specifications.bedrooms}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-lg"
+                placeholder="0"
+                min="0"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
             </div>
 
@@ -289,7 +363,9 @@ function Sell() {
                 name="specifications.bathrooms"
                 value={formData.specifications.bathrooms}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-lg"
+                placeholder="0"
+                min="0"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
             </div>
 
@@ -300,32 +376,123 @@ function Sell() {
                 name="specifications.area"
                 value={formData.specifications.area}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-lg"
+                placeholder="0"
+                min="0"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2">Parking Spaces</label>
+              <input
+                type="number"
+                name="specifications.parking"
+                value={formData.specifications.parking}
+                onChange={handleChange}
+                placeholder="0"
+                min="0"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <label className="block font-medium mb-2">Furnished Status</label>
+              <select
+                name="specifications.furnished"
+                value={formData.specifications.furnished}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              >
+                <option value="unfurnished">Unfurnished</option>
+                <option value="semi-furnished">Semi-Furnished</option>
+                <option value="fully-furnished">Fully Furnished</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Amenities */}
+        <div className="border-b pb-6">
+          <h2 className="text-xl font-semibold mb-4">Amenities</h2>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {['gym', 'pool', 'garden', 'security', 'lift', 'power-backup', 'internet', 'air-conditioning', 'balcony', 'terrace'].map((amenity) => (
+              <label key={amenity} className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={formData.amenities.includes(amenity)}
+                  onChange={() => handleAmenities(amenity)}
+                  className="w-4 h-4 cursor-pointer"
+                />
+                <span className="capitalize">{amenity.replace('-', ' ')}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Owner Details */}
+        <div className="border-b pb-6">
+          <h2 className="text-xl font-semibold mb-4">Contact Information</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block font-medium mb-2">Contact Name</label>
+              <input
+                type="text"
+                name="owner.name"
+                value={formData.owner.name}
+                onChange={handleChange}
+                placeholder="Your name"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2">Phone Number</label>
+              <input
+                type="tel"
+                name="owner.phone"
+                value={formData.owner.phone}
+                onChange={handleChange}
+                placeholder="+91 9876543210"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <label className="block font-medium mb-2">Email</label>
+              <input
+                type="email"
+                name="owner.email"
+                value={formData.owner.email}
+                onChange={handleChange}
+                placeholder="your.email@example.com"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
             </div>
           </div>
         </div>
 
-        {/* ✅ IMAGE UPLOAD SECTION */}
-        <div className="border-t pt-6">
+        {/* IMAGE UPLOAD SECTION */}
+        <div className="border-b pb-6">
           <h2 className="text-xl font-semibold mb-4">Property Images *</h2>
           
           {/* File Input */}
           <div className="mb-4">
             <label className="block w-full">
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-blue-500 transition">
-                <i className="bi bi-cloud-upload text-4xl text-gray-400 mb-2"></i>
-                <p className="text-gray-600 font-medium">
-                  Click to upload images
+                <i className="bi bi-cloud-upload text-5xl text-gray-400 mb-3 block"></i>
+                <p className="text-gray-700 font-medium text-lg">
+                  Click to upload property images
                 </p>
-                <p className="text-sm text-gray-500 mt-1">
-                  Maximum 10 images (JPG, PNG, WebP)
+                <p className="text-sm text-gray-500 mt-2">
+                  Maximum 10 images • JPG, PNG, WebP supported
                 </p>
               </div>
               <input
                 type="file"
                 multiple
-                accept="image/*"
+                accept="image/jpeg,image/jpg,image/png,image/webp"
                 onChange={handleFileSelect}
                 className="hidden"
               />
@@ -334,58 +501,71 @@ function Sell() {
 
           {/* Image Previews */}
           {imagePreviews.length > 0 && (
-            <div className="grid grid-cols-4 gap-4">
-              {imagePreviews.map((preview, index) => (
-                <div key={index} className="relative group">
-                  <img
-                    src={preview}
-                    alt={`Preview ${index + 1}`}
-                    className="w-full h-32 object-cover rounded-lg border"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeImage(index)}
-                    className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition"
-                  >
-                    <i className="bi bi-x text-xl"></i>
-                  </button>
-                  {index === 0 && (
-                    <div className="absolute bottom-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded">
-                      Primary
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-
-          {selectedFiles.length > 0 && (
-            <p className="text-sm text-gray-600 mt-2">
-              {selectedFiles.length} image(s) selected
-            </p>
+            <>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                {imagePreviews.map((preview, index) => (
+                  <div key={index} className="relative group">
+                    <img
+                      src={preview}
+                      alt={`Preview ${index + 1}`}
+                      className="w-full h-32 object-cover rounded-lg border-2 border-gray-200"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="absolute top-2 right-2 bg-red-600 text-white w-7 h-7 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition hover:bg-red-700"
+                    >
+                      <i className="bi bi-x text-xl"></i>
+                    </button>
+                    {index === 0 && (
+                      <div className="absolute bottom-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded font-medium">
+                        Primary Image
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              
+              <p className="text-sm text-gray-600 bg-blue-50 p-3 rounded-lg">
+                <i className="bi bi-info-circle mr-2"></i>
+                {selectedFiles.length} image(s) selected • First image will be the primary image
+              </p>
+            </>
           )}
         </div>
 
         {/* Submit Button */}
-        <div className="border-t pt-6">
+        <div className="pt-6">
           <button
             type="submit"
             disabled={submitting}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+            className="w-full bg-blue-600 text-white py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition shadow-lg hover:shadow-xl"
           >
             {submitting ? (
-              <span className="flex items-center justify-center gap-2">
-                <i className="bi bi-hourglass-split animate-spin"></i>
-                Creating Property...
+              <span className="flex items-center justify-center gap-3">
+                {uploadingImages ? (
+                  <>
+                    <i className="bi bi-cloud-upload animate-bounce"></i>
+                    Uploading Images...
+                  </>
+                ) : (
+                  <>
+                    <i className="bi bi-hourglass-split animate-spin"></i>
+                    Creating Property...
+                  </>
+                )}
               </span>
             ) : (
-              'Create Property'
+              <span className="flex items-center justify-center gap-2">
+                <i className="bi bi-check-circle"></i>
+                List Property
+              </span>
             )}
           </button>
         </div>
       </form>
     </div>
-  )
+  );
 }
 
-export default Sell
+export default Sell;
