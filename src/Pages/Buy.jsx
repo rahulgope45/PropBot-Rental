@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import banner from '/bannerBuy5.jpg'
 import Geo1 from '/Geo1.png'
 import search1 from '/search1.png'
@@ -20,7 +20,32 @@ const [filters, setFilters] = useState({
   minPrice: '',
   maxPrice: '',
   bedrooms: ''
-})
+});
+
+//fetch properties added
+useEffect(() =>{
+  fetchProperties();
+},[]);
+
+const fetchProperties = async () => {
+  setLoading(true);
+  try {
+    const queryParams = new URLSearchParams();
+    Object.keys(filters).forEach(key => {
+      if(filters[key]){
+        queryParams.append(key,filters[key]);
+      }
+    });
+    const response = await axios.get(`${PROPERTY_URL}? ${queryParams}`);
+    setProperties(response.data.properties);
+  } catch (error) {
+    console.error('Error fetching properties:' , error);
+    toast.error('failed to load properties');
+    
+  }finally{
+    setLoading(false);
+  }
+}
 
 
   return (  
