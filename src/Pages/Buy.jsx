@@ -45,6 +45,25 @@ const fetchProperties = async () => {
   }finally{
     setLoading(false);
   }
+};
+
+const handleFilterChange = (e) => {
+  setFilters(prev => ({
+    ...prev,
+    [e.target.name]: e.target.value
+  }))
+}
+
+const handleClearFilters = () => {
+  setFilters({
+    city: '',
+      propertyType: '',
+      listingType: '',
+      minPrice: '',
+      maxPrice: '',
+      bedrooms: ''
+  });
+  fetchProperties();
 }
 
 
