@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import React from 'react'
 
-function PropertyCard(property) {
+function PropertyCard({property}) {
     const navigate = useNavigate();
 
     //Primary Image
