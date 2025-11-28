@@ -1,11 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import banner from '/bannerBuy5.jpg'
 import Geo1 from '/Geo1.png'
 import search1 from '/search1.png'
 import Featuredbuy from '../Components/Featuredbuy'
 import nativebanner from '/nativeBuy.jpg'
+import axios from 'axios'
+import toast from 'react-hot-toast';
+import { PROPERTY_URL } from '../Services/consfig'
+import PropertyCard from '../Components/PropertyCard'
 
 function Buy() {
+
+const [properties, setProperties] = useState([]);
+const [loading, setLoading] = useState(true);
+const [filters, setFilters] = useState({
+  city: '',
+  propertyType: '',
+  listingType:'',
+  minPrice: '',
+  maxPrice: '',
+  bedrooms: ''
+})
+
+
   return (  
     <div>
       <div>
