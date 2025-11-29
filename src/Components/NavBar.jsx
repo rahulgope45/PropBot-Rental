@@ -249,6 +249,8 @@ const handleFindProperty = () => {
               <div className='w-[120px] '>
                 <Select
                   placeholder="Property For"
+                  value={typePropertyOption.find(opt => opt.value === searchFillters.listingType)}
+                  onChange={(option) => setSearchFilters(prev => ({...prev, listingType: option.value}))}
                   styles={{
                     control: (base) => ({
                       ...base,
@@ -286,13 +288,15 @@ const handleFindProperty = () => {
             </div>
 
           </div>
-
+           {/* Properrty Type(House /Apartment/etc) */}
           <div className="w-[243px] flex items-center justify-between px-4 py-3 border border-gray-300 font-medium text-gray-700 rounded-full">
             <div className="flex items-center gap-2">
               <img src={house1} className="h-5 w-5 object-contain" />
               <div className='w-[120px] '>
                 <Select
                   placeholder="Type"
+                  value={typeHouse.find(opt => opt.value === searchFillters.propertyType)}
+                  onChange={(option) => setSearchFilters(prev => ({...prev,propertyType: option.value}))}
                   styles={{
                     control: (base) => ({
                       ...base,
@@ -331,13 +335,15 @@ const handleFindProperty = () => {
             </div>
             
           </div>
-
+          {/* Location */}
           <div className="w-[243px] flex items-center justify-between px-4 py-3 border border-gray-300 font-medium text-gray-700 rounded-full">
             <div className="flex items-center gap-2">
               <i className="bi bi-crosshair"></i>
               <div className='w-[120px] '>
                 <Select
                   placeholder="Location"
+                  value={LocationOptions.find(opt => opt.value === searchFillters.location)}
+                  onChange={(option) => setSearchFilters(prev => ({...prev,location:option.value}))}
                   styles={{
                     control: (base) => ({
                       ...base,
@@ -380,7 +386,7 @@ const handleFindProperty = () => {
           {/* Button */}
           <div className="w-[243px] flex items-center justify-center">
             <button 
-            onClick={handleApplyFilters}
+            onClick={handleFindProperty}
             className="w-full px-6 py-3 rounded-full bg-blue-900 text-white font-semibold hover:bg-blue-700 transition">
               Find Property
             </button>
