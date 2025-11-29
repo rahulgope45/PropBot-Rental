@@ -8,6 +8,7 @@ import axios from 'axios'
 import toast from 'react-hot-toast';
 import { PROPERTY_URL } from '../Services/consfig'
 import PropertyCard from '../Components/PropertyCard'
+import PropertyCard2 from '../Components/PropertyCard2'
 
 function Buy() {
 
@@ -221,7 +222,7 @@ function Buy() {
               {loading ? (
                 <div className="flex justify-center items-center py-20">
                   <div className="text-center">
-                    <i className="bi bi-hourglass-split text-4xl text-blue-600 animate-spin mb-4"></i>
+                    <i className="bi bi-hourglass-split text-4xl text-blue-600 animate-spin mb-4 gap-3 "></i>
                     <p className="text-gray-600">Loading properties...</p>
                   </div>
                 </div>
@@ -238,9 +239,9 @@ function Buy() {
                   <div className="mb-4 text-gray-600">
                     Found {properties.length} properties
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-10 lg:grid-cols-2 gap-y-30 gap-10 mb-30">
                     {properties.map(property => (
-                      <PropertyCard key={property._id} property={property} />
+                      <PropertyCard2 key={property._id} property={property} />
                     ))}
                   </div>
                 </>
