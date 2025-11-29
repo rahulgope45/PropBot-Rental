@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import icon from '/icon.png'
 import external1 from '/external1.png'
 import house1 from '/house1.png'
@@ -8,6 +8,7 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useAuth } from '../context/authContext'
 import Select from 'react-select'
+import { PROPERTY_URL } from '../Services/consfig'
 
 
 function NavBar() {
