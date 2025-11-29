@@ -9,19 +9,31 @@ import toast from 'react-hot-toast'
 import { useAuth } from '../context/authContext'
 import Select from 'react-select'
 import { PROPERTY_URL } from '../Services/consfig'
+import { useNavigate } from 'react-router-dom'
 
 
 function NavBar() {
+
+  //User Login status
   const { userLoggedIn, setUserLoggedIn, setUser } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
 
+  const navigate = useNavigate();
+  const [searchFillters, setSearchFilters] = useState({
+    listingType: "",
+    propertyType: "",
+    location: ""
+  });
+
   //Options For SE
   const typePropertyOption = [
+    { value: "", label: "Buy/Rent" },
     { value: "rent", label: "Rent" },
-    { value: "buy", label: "Buy" },
+    { value: "sale", label: "Sale" },
   ];
   const typeHouse = [
+    {value:'', label: "All Types"},
     {value:'house', label: "House"},
     {value:'apartment', label: "Apartment"},
     {value:'villa', label: "Villa"},
@@ -30,18 +42,13 @@ function NavBar() {
     {value:'office', label: "Office"} 
   ];
   const LocationOptions = [
-  { value: "hingewadi-pune", label: "Hingewadi, Pune" },
-  { value: "akurdi-pune", label: "Akurdi, Pune" },
-  { value: "kothrud-pune", label: "Kothrud, Pune" },
-  { value: "bandra-mumbai", label: "Bandra, Mumbai" },
-  { value: "andheri-mumbai", label: "Andheri, Mumbai" },
-  { value: "dadar-mumbai", label: "Dadar, Mumbai" },
-  { value: "saket-delhi", label: "Saket, Delhi" },
-  { value: "karolbagh-delhi", label: "Karol Bagh, Delhi" },
-  { value: "koramangala-bangalore", label: "Koramangala, Bangalore" },
-  { value: "indiranagar-bangalore", label: "Indiranagar, Bangalore" },
-  { value: "saltlake-kolkata", label: "Salt Lake, Kolkata" },
-  { value: "newtown-kolkata", label: "New Town, Kolkata" },
+   { value: "Pune", label: "Pune" },
+    { value: "Mumbai", label: "Mumbai" },
+    { value: "Delhi", label: "Delhi" },
+    { value: "Bangalore", label: "Bangalore" },
+    { value: "Kolkata", label: "Kolkata" },
+    { value: "Hyderabad", label: "Hyderabad" },
+    { value: "Chennai", label: "Chennai" },
 ];
 
 //Search filter here
@@ -57,53 +64,31 @@ const [filters, setFilters] = useState({
     bedrooms: ''
   });
 
-  //fetch properties added
-  useEffect(() => {
-    fetchProperties();
-  }, []);
+ 
+const handleFindProperty = () => {
+  const params = new URLSearchParams();
 
-  const fetchProperties = async () => {
-    setLoading(true);
-    try {
-      const queryParams = new URLSearchParams();
-      Object.keys(filters).forEach(key => {
-        if (filters[key]) {
-          queryParams.append(key, filters[key]);
-        }
-      });
-      const response = await axios.get(`${PROPERTY_URL}? ${queryParams}`);
-      setProperties(response.data.properties);
-    } catch (error) {
-      console.error('Error fetching properties:', error);
-      toast.error('failed to load properties');
-
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleFilterChange = (e) => {
-    setFilters(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }))
+  if(searchFillters.propertyType){
+    params.append('propertyType',searchFillters.propertyType);
   }
-
-    const handleApplyFilters = () => {
-    fetchProperties();
-  };
-
-  const handleClearFilters = () => {
-    setFilters({
-      city: '',
-      propertyType: '',
-      listingType: '',
-      minPrice: '',
-      maxPrice: '',
-      bedrooms: ''
-    });
-    fetchProperties();
+  if(searchFillters.location){
+    params.append('city',searchFillters.location)
   }
+  
+  //The Logic here is that if the property is sale it would show the filter in the buy page but if the type is rent it would show in the rent page
+  let targetPage = '/buy'; //Default to buy Page
+  if(searchFillters.listingType === 'rent'){
+    targetPage = '/rent';
+  }else if(searchFillters.listingType === 'sale'){
+    targetPage= '/buy';
+  }
+  // And if the property type is empty the target page is by default /buy page
+  
+  //Navigating with query parameters
+  const queryString = params.toString();
+  navigate(`${targetPage}${queryString ? `?${queryString}`: ''}`);
+}
+ 
 
 
 
@@ -394,7 +379,9 @@ const [filters, setFilters] = useState({
 
           {/* Button */}
           <div className="w-[243px] flex items-center justify-center">
-            <button className="w-full px-6 py-3 rounded-full bg-blue-900 text-white font-semibold hover:bg-blue-700 transition">
+            <button 
+            onClick={handleApplyFilters}
+            className="w-full px-6 py-3 rounded-full bg-blue-900 text-white font-semibold hover:bg-blue-700 transition">
               Find Property
             </button>
           </div>
