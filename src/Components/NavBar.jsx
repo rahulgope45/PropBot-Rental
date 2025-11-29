@@ -43,10 +43,70 @@ function NavBar() {
   { value: "newtown-kolkata", label: "New Town, Kolkata" },
 ];
 
+//Search filter here
+
+const [properties, setProperties] = useState([]);
+const[loading, setLoading]= useState(true);
+const [filters, setFilters] = useState({
+    city: '',
+    propertyType: '',
+    listingType: '',
+    minPrice: '',
+    maxPrice: '',
+    bedrooms: ''
+  });
+
+  //fetch properties added
+  useEffect(() => {
+    fetchProperties();
+  }, []);
+
+  const fetchProperties = async () => {
+    setLoading(true);
+    try {
+      const queryParams = new URLSearchParams();
+      Object.keys(filters).forEach(key => {
+        if (filters[key]) {
+          queryParams.append(key, filters[key]);
+        }
+      });
+      const response = await axios.get(`${PROPERTY_URL}? ${queryParams}`);
+      setProperties(response.data.properties);
+    } catch (error) {
+      console.error('Error fetching properties:', error);
+      toast.error('failed to load properties');
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFilterChange = (e) => {
+    setFilters(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }))
+  }
+
+    const handleApplyFilters = () => {
+    fetchProperties();
+  };
+
+  const handleClearFilters = () => {
+    setFilters({
+      city: '',
+      propertyType: '',
+      listingType: '',
+      minPrice: '',
+      maxPrice: '',
+      bedrooms: ''
+    });
+    fetchProperties();
+  }
 
 
 
-
+//Logout here
   async function handleLogout(e) {
     e.preventDefault();
     try {
