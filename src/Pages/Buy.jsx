@@ -23,6 +23,9 @@ function Buy() {
     maxPrice: '',
     bedrooms: ''
   });
+  //Adding Search params For Sale denoted properties
+
+  const [searchParams] = useSearchParams();
 
   //fetch properties added
   useEffect(() => {
@@ -76,9 +79,7 @@ function Buy() {
   }
 
 
-  //Adding Search params For Sale denoted properties
-
-  const [searchParams] = useSearchParams();
+  
 
 
 
@@ -128,28 +129,28 @@ function Buy() {
             <div className="max-w-7xl mx-auto px-4">
 
               {/* Header */}
-              <div className="mb-8">
+              {/* <div className="mb-8">
                 <h1 className="text-4xl font-bold text-gray-800 mb-2">Browse Properties</h1>
                 <p className="text-gray-600">Find your dream property from our listings</p>
               </div>
 
-              {/* Filters */}
+              Filters
               <div className="bg-white rounded-lg shadow p-6 mb-8">
                 <h2 className="text-xl font-semibold mb-4">Filters</h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4"> */}
                   {/* City */}
-                  <input
+                  {/* <input
                     type="text"
                     name="city"
                     value={filters.city}
                     onChange={handleFilterChange}
                     placeholder="City"
                     className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  />
+                  /> */}
 
                   {/* Property Type */}
-                  <select
+                  {/* <select
                     name="propertyType"
                     value={filters.propertyType}
                     onChange={handleFilterChange}
@@ -162,10 +163,10 @@ function Buy() {
                     <option value="land">Land</option>
                     <option value="commercial">Commercial</option>
                     <option value="office">Office</option>
-                  </select>
+                  </select> */}
 
                   {/* Listing Type */}
-                  <select
+                  {/* <select
                     name="listingType"
                     value={filters.listingType}
                     onChange={handleFilterChange}
@@ -174,30 +175,30 @@ function Buy() {
                     <option value="">Buy/Rent</option>
                     <option value="sale">For Sale</option>
                     <option value="rent">For Rent</option>
-                  </select>
+                  </select> */}
 
                   {/* Min Price */}
-                  <input
+                  {/* <input
                     type="number"
                     name="minPrice"
                     value={filters.minPrice}
                     onChange={handleFilterChange}
                     placeholder="Min Price"
                     className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  />
+                  /> */}
 
                   {/* Max Price */}
-                  <input
+                  {/* <input
                     type="number"
                     name="maxPrice"
                     value={filters.maxPrice}
                     onChange={handleFilterChange}
                     placeholder="Max Price"
                     className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  />
+                  /> */}
 
                   {/* Bedrooms */}
-                  <select
+                  {/* <select
                     name="bedrooms"
                     value={filters.bedrooms}
                     onChange={handleFilterChange}
@@ -209,10 +210,10 @@ function Buy() {
                     <option value="3">3+</option>
                     <option value="4">4+</option>
                   </select>
-                </div>
+                </div> */}
 
                 {/* Filter Buttons */}
-                <div className="flex gap-3 mt-4">
+                {/* <div className="flex gap-3 mt-4">
                   <button
                     onClick={handleApplyFilters}
                     className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
@@ -226,7 +227,7 @@ function Buy() {
                     Clear Filters
                   </button>
                 </div>
-              </div>
+              </div> */}
 
               {/* Loading */}
               {loading ? (
@@ -247,7 +248,7 @@ function Buy() {
                 // Property Grid
                 <>
                   <div className="mb-4 text-gray-600">
-                    Found {properties.length} properties
+                    Found {properties.length} properties for sale
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-10 lg:grid-cols-2 gap-y-30 gap-10 mb-30">
                     {properties.map(property => (
