@@ -1,11 +1,55 @@
-import React from 'react'
+import React, { useState } from 'react'
 import banner from '/bannerRent.jpg'
 import Geo1 from '/Geo1.png'
 import search1 from '/search1.png'
 import Featuredbuy from '../Components/Featuredbuy'
 import nativebanner from '/nativeRent.jpg'
+import { useSearchParams } from 'react-router-dom'
 
 function Rent() {
+
+  const [properties , setProperties] = useState([]);
+  const[loading, setLoading] = useState(true);
+  const[filters,setFilters] =useState({
+    city: '',
+    propertyType: '',
+    listingType: '',
+    minPrice: '',
+    maxPrice: '',
+    bedrooms: ''
+  })
+
+  //Adding Search params For Sale denoted properties
+
+  const [searchParams] = useSearchParams();
+
+  //fetch properties added
+  useEffect(() => {
+    fetchProperties();
+  }, [searchParams]);
+
+  const fetchProperties = async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams();
+      params.append('listingType','sale');
+
+      const propertyType = searchParams.get('propertyType');
+      const city = searchParams.get('city');
+
+      if(propertyType) params.append('propertyType',propertyType);
+      if(city) params.append('city',city);
+
+      const response = await axios.get(`${PROPERTY_URL}? ${params}`);
+      setProperties(response.data.properties);
+    } catch (error) {
+      console.error('Error fetching properties:', error);
+      toast.error('failed to load properties');
+
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div>
       <div>
