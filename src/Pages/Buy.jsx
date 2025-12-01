@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import banner from '/bannerBuy5.jpg'
 import Geo1 from '/Geo1.png'
 import search1 from '/search1.png'
@@ -26,18 +27,21 @@ function Buy() {
   //fetch properties added
   useEffect(() => {
     fetchProperties();
-  }, []);
+  }, [searchParams]);
 
   const fetchProperties = async () => {
     setLoading(true);
     try {
-      const queryParams = new URLSearchParams();
-      Object.keys(filters).forEach(key => {
-        if (filters[key]) {
-          queryParams.append(key, filters[key]);
-        }
-      });
-      const response = await axios.get(`${PROPERTY_URL}? ${queryParams}`);
+      const params = new URLSearchParams();
+      params.append('listingType','sale');
+
+      const propertyType = searchParams.get('propertyType');
+      const city = searchParams.get('city');
+
+      if(propertyType) params.append('propertyType',propertyType);
+      if(city) params.append('city',city);
+
+      const response = await axios.get(`${PROPERTY_URL}? ${params}`);
       setProperties(response.data.properties);
     } catch (error) {
       console.error('Error fetching properties:', error);
@@ -70,6 +74,12 @@ function Buy() {
     });
     fetchProperties();
   }
+
+
+  //Adding Search params For Sale denoted properties
+
+  const [searchParams] = useSearchParams();
+
 
 
   return (
