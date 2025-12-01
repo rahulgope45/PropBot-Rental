@@ -53,16 +53,7 @@ function NavBar() {
 
 //Search filter here
 
-const [properties, setProperties] = useState([]);
-const[loading, setLoading]= useState(true);
-const [filters, setFilters] = useState({
-    city: '',
-    propertyType: '',
-    listingType: '',
-    minPrice: '',
-    maxPrice: '',
-    bedrooms: ''
-  });
+
 
  
 const handleFindProperty = () => {

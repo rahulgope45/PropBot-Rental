@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import banner from '/bannerRent.jpg'
 import Geo1 from '/Geo1.png'
 import search1 from '/search1.png'
 import Featuredbuy from '../Components/Featuredbuy'
 import nativebanner from '/nativeRent.jpg'
 import { useSearchParams } from 'react-router-dom'
+import PropertyCard2 from '../Components/PropertyCard2'
+import axios from 'axios';
+import { PROPERTY_URL } from '../Services/consfig';
+import toast from 'react-hot-toast'
+
 
 function Rent() {
 
@@ -32,7 +37,7 @@ function Rent() {
     setLoading(true);
     try {
       const params = new URLSearchParams();
-      params.append('listingType','sale');
+      params.append('listingType','rent');
 
       const propertyType = searchParams.get('propertyType');
       const city = searchParams.get('city');
@@ -40,7 +45,7 @@ function Rent() {
       if(propertyType) params.append('propertyType',propertyType);
       if(city) params.append('city',city);
 
-      const response = await axios.get(`${PROPERTY_URL}? ${params}`);
+      const response = await axios.get(`${PROPERTY_URL}?${params}`);
       setProperties(response.data.properties);
     } catch (error) {
       console.error('Error fetching properties:', error);
@@ -87,6 +92,38 @@ function Rent() {
 
 
           </div>
+        </div>
+        <div className='mb-50'>
+          {/* Loading */}
+              {loading ? (
+                <div className="flex justify-center items-center py-20">
+                  <div className="text-center">
+                    <i className="bi bi-hourglass-split text-4xl text-blue-600 animate-spin mb-4 gap-3 "></i>
+                    <p className="text-gray-600">Loading properties...</p>
+                  </div>
+                </div>
+              ) : properties.length === 0 ? (
+                // No properties found
+                <div className="text-center py-20">
+                  <i className="bi bi-house-x text-6xl text-gray-400 mb-4"></i>
+                  <h3 className="text-2xl font-semibold text-gray-700 mb-2">No Properties Found</h3>
+                  <p className="text-gray-600">Try adjusting your filters</p>
+                </div>
+              ) : (
+                // Property Grid
+                <>
+                  <div className="mb-4 text-gray-600 text-center">
+                    Found {properties.length} properties for Rent
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-10 lg:grid-cols-2 gap-y-30 gap-10 mb-30">
+                    {properties.map(property => (
+                      <PropertyCard2 key={property._id} property={property} />
+                    ))}
+                  </div>
+                </>
+              )}
+
+
         </div>
         <div>
           <Featuredbuy />

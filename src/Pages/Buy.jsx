@@ -44,7 +44,7 @@ function Buy() {
       if(propertyType) params.append('propertyType',propertyType);
       if(city) params.append('city',city);
 
-      const response = await axios.get(`${PROPERTY_URL}? ${params}`);
+      const response = await axios.get(`${PROPERTY_URL}?${params}`);
       setProperties(response.data.properties);
     } catch (error) {
       console.error('Error fetching properties:', error);
@@ -248,7 +248,7 @@ function Buy() {
                 // Property Grid
                 <>
                   <div className="mb-4 text-gray-600">
-                    Found {properties.length} properties for sale
+                    Found {properties.length} properties for Sale
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-10 lg:grid-cols-2 gap-y-30 gap-10 mb-30">
                     {properties.map(property => (
