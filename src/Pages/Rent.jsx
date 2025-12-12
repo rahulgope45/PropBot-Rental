@@ -112,7 +112,7 @@ function Rent() {
               ) : (
                 // Property Grid
                 <>
-                  <div className="mb-4 text-gray-600 text-center">
+                  <div className="mb-4 text-gray-600 pt-7 pl-15">
                     Found {properties.length} properties for Rent
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-10 lg:grid-cols-2 gap-y-30 gap-10 mb-30">
