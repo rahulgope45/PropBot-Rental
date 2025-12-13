@@ -121,9 +121,7 @@ function Buy() {
 
           </div>
         </div>
-        <div>
-          <Featuredbuy />
-        </div>
+        
         <div className='mt-3'>
           <div className="min-h-screen bg-gray-50 py-8">
             <div className="max-w-7xl mx-auto px-4">
@@ -259,6 +257,9 @@ function Buy() {
               )}
             </div>
           </div>
+          <div>
+          <Featuredbuy />
+        </div>
 
         </div>
 
