@@ -8,7 +8,6 @@ import nativebanner from '/nativeBuy.jpg'
 import axios from 'axios'
 import toast from 'react-hot-toast';
 import { PROPERTY_URL } from '../Services/consfig'
-import PropertyCard from '../Components/PropertyCard'
 import PropertyCard2 from '../Components/PropertyCard2'
 
 function Buy() {

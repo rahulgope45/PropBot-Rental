@@ -14,6 +14,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useAuth } from './context/authContext'
 import Navbar3 from './Components/Navbar3'
 import Rent from './Pages/Rent'
+import PropertyDetails from './Components/PropertyDetails'
 
 
 
@@ -54,6 +55,7 @@ function App() {
           />
           <Route path='/signup' element={<Signin />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/property/:id' element={<PropertyDetails />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         

@@ -5,11 +5,13 @@ import bookmark from '/bookmark.png'
 
 
 
+
+
 function PropertyCard2({ property }) {
 
     const navigate = useNavigate();
     //Primary Image
-    const primaryImage = property.images?.find(img => img.isPrimary) || property?.[0];
+    const primaryImage = property.images?.find(img => img.isPrimary) || property.images?.[0];
 
     //format price
     const formatPrice = (price) => {
@@ -18,6 +20,16 @@ function PropertyCard2({ property }) {
             currency: 'INR',
             maximumFractionDigits: 0
         }).format(price);
+    }
+
+    const handleBookmark = (e) =>{
+        e.stopPropagation();
+        console.log('Bookmarked:' , property._id);
+    }
+
+    const handleKnowMore = (e) => {
+        e.stopPropagation();
+        navigate(`/property/${property._id}`);
     }
 
 
@@ -55,6 +67,7 @@ function PropertyCard2({ property }) {
                             </div>
                             <img
                                 src={bookmark}
+                                onClick={handleBookmark}
                                 alt='Bookmark'
                                 className="w-5 h-5 sm:w-[28px] sm:h-[28px] cursor-pointer hover:scale-110 transition-transform"
                             />
@@ -71,7 +84,9 @@ function PropertyCard2({ property }) {
                                 {formatPrice(property.price)}
                                 {property.listingType === 'rent' && <span className="text-sm font-normal text-gray-600">/month</span>}
                             </p>
-                            <button className="bg-blue-900 text-white font-semibold px-4 sm:px-5 py-2 rounded-full hover:bg-blue-700 transition">
+                            <button 
+                            onClick={handleKnowMore}
+                            className="bg-blue-900 text-white font-semibold px-4 sm:px-5 py-2 rounded-full hover:bg-blue-700 transition">
                                 Know More
                             </button>
                         </div>
