@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation ,useMatch} from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
 import './App.css'
 import Home from './Pages/Home'
@@ -21,15 +21,19 @@ import PropertyDetails from './Components/PropertyDetails'
 function App() {
 
   const location = useLocation();
+  const propertyMatch = useMatch('property/:id');
   const {userLoggedIn} = useAuth();
  
   // check if current route is signup or login
   const isAuthPage = location.pathname === "/signup" || location.pathname === "/login" ;
   const isSellPage = location.pathname === "/sell";
+  const isPropertyDetailPage = !!propertyMatch;
 
-  let NavBarToShow;
-
-  if(isAuthPage){
+  let NavBarToShow= null;
+  if(isPropertyDetailPage){
+    NavBarToShow = null;
+  }
+  else if(isAuthPage){
     NavBarToShow = <AuthNavbar/>;
   }else if(isSellPage){
     NavBarToShow = <Navbar3/>;
