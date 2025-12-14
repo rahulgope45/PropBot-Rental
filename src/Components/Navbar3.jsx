@@ -7,6 +7,7 @@ import { AUTH_BASR_URL } from '../Services/consfig'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useAuth } from '../context/authContext'
+import usericon from '/usericon1.png'
 
 function Navbar3() {
 
@@ -86,25 +87,53 @@ function Navbar3() {
       </div>
 
       {/* Desktop Auth Button */}
-      <div className="hidden md:block">
-        {userLoggedIn ? (
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-2 px-6 py-2 rounded-full bg-red-600 text-white font-semibold hover:bg-red-500 transition"
-          >
-            Logout
-            <i className="bi bi-box-arrow-right text-lg"></i>
-          </button>
-        ) : (
-          <NavLink
-            className="flex items-center gap-2 px-6 py-2 rounded-full bg-blue-900 text-white font-semibold hover:bg-blue-700 transition"
-            to="/signup"
-          >
-            Login / Register
-            <i className="bi bi-arrow-right-circle text-lg"></i>
-          </NavLink>
-        )}
-      </div>
+            <div className="hidden md:block">
+              
+              
+      
+                {userLoggedIn ? (
+                  <div className='relative group '>
+                  <img
+                    src={usericon}
+                    className=' w-[40px] h-[40px] hover:bg-blue-200 p-1 rounded-full'
+                  />
+                  <div
+                    className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md 
+                     opacity-0 group-hover:opacity-100 transform scale-95 
+                     group-hover:scale-100 transition-all duration-200 z-50"
+                  >
+                    
+                      <div className="flex flex-col divide-y divide-gray-200">
+                        {/* Profile */}
+                        <NavLink
+                          to="/profile"
+                          className="px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
+                        >
+                          Profile
+                        </NavLink>
+      
+                        {/* Logout */}
+                        <button
+                          onClick={handleLogout}
+                          className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 transition"
+                        >
+                          <i className="bi bi-box-arrow-right text-lg"></i>
+                          Logout
+                        </button>
+                      </div>
+                    
+                  </div>
+                  </div>
+                ) : (
+                  <NavLink
+                    className="flex items-center gap-2 px-6 py-2 rounded-full bg-blue-900 text-white font-semibold hover:bg-blue-700 transition"
+                    to="/signup"
+                  >
+                    Login / Register
+                    <i className="bi bi-arrow-right-circle text-lg"></i>
+                  </NavLink>
+                )}
+              </div>
 
       {/* Mobile Hamburger */}
       <button
