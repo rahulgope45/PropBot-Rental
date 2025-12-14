@@ -88,7 +88,7 @@ function Rent() {
               </div>
             </div>
             {/* background blur */}
-            <div className="absolute bottom-0 left-0 w-full h-[208px] w-[1328px] bg-gradient-to-t from-black/10 to-transparent backdrop-blur-[1.8px] rounded-xl"></div>
+            <div className="absolute bottom-0 left-0 w-full h-[208px] w-[1329px] bg-gradient-to-t from-black/10 to-transparent backdrop-blur-[1.8px] rounded-xl"></div>
 
 
           </div>

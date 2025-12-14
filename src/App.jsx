@@ -15,6 +15,7 @@ import { useAuth } from './context/authContext'
 import Navbar3 from './Components/Navbar3'
 import Rent from './Pages/Rent'
 import PropertyDetails from './Components/PropertyDetails'
+import Profile from './Pages/Profile'
 
 
 
@@ -27,6 +28,7 @@ function App() {
   // check if current route is signup or login
   const isAuthPage = location.pathname === "/signup" || location.pathname === "/login" ;
   const isSellPage = location.pathname === "/sell";
+  const isProfilePage = location.pathname === "/profile";
   const isPropertyDetailPage = !!propertyMatch;
 
   let NavBarToShow= null;
@@ -37,7 +39,11 @@ function App() {
     NavBarToShow = <AuthNavbar/>;
   }else if(isSellPage){
     NavBarToShow = <Navbar3/>;
-  }else{
+  }
+  else if(isProfilePage){
+    NavBarToShow = <Navbar3/>
+  }
+  else{
     NavBarToShow = <NavBar/>;
   }
 
@@ -60,6 +66,7 @@ function App() {
           <Route path='/signup' element={<Signin />} />
           <Route path='/login' element={<Login />} />
           <Route path='/property/:id' element={<PropertyDetails />} />
+          <Route path='/profile' element={<Profile />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         
