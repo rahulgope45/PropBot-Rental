@@ -16,6 +16,7 @@ import Navbar3 from './Components/Navbar3'
 import Rent from './Pages/Rent'
 import PropertyDetails from './Components/PropertyDetails'
 import Profile from './Pages/Profile'
+import EditProperty from './Pages/EditProperty'
 
 
 
@@ -67,7 +68,8 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/property/:id' element={<PropertyDetails />} />
           <Route path='/profile' element={<Profile />} />
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path='/edit-property/:id' element={<EditProperty />} />
+          <Route path="*" element={userLoggedIn ? <EditProperty /> : <Navigate to="/login" />} />
         </Routes>
         
 
