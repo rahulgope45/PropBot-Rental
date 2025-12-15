@@ -4,13 +4,13 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import usericon from '/usericon1.png';
 import ProfileProperty from '../Components/ProfileProterty';
-import { PROPERTY_URL } from '../Services/consfig';
+import { AUTH_BASR_URL, PROPERTY_URL } from '../Services/consfig';
 import { useAuth } from '../context/authContext';
 
 function Profile() {
   const navigate = useNavigate();
   const { user, userLoggedIn } = useAuth();
-  
+  const [getUser, setUser] = useState(null);
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -24,6 +24,22 @@ function Profile() {
 
     fetchUserProperties();
   }, [userLoggedIn, navigate]);
+
+ useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const res = await axios.get(`${AUTH_BASR_URL}/me`, {
+        withCredentials: true
+      });
+      setUser(res.data.user);
+    } catch (error) {
+      console.error('Failed to fetch user', error);
+    }
+  };
+
+  fetchUser();
+}, []);
+
 
   const fetchUserProperties = async () => {
     setLoading(true);
@@ -88,13 +104,13 @@ function Profile() {
                 <div className="flex items-center gap-3">
                   <i className="bi bi-person-circle text-2xl text-blue-900"></i>
                   <p className="text-2xl text-gray-800 font-semibold">
-                    {user?.fullName || 'User Name'}
+                    {getUser?.fullName || 'User Name'}
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
                   <i className="bi bi-envelope text-2xl text-blue-900"></i>
                   <p className="text-xl text-gray-700">
-                    {user?.email || 'user@example.com'}
+                    {getUser?.email || 'user@example.com'}
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
