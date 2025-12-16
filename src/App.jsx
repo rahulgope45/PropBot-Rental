@@ -29,7 +29,8 @@ function App() {
   // check if current route is signup or login
   const isAuthPage = location.pathname === "/signup" || location.pathname === "/login" ;
   const isSellPage = location.pathname === "/sell";
-  const isProfilePage = location.pathname === "/profile";
+  const isProfilePage = location.pathname === "/profile" ;
+  const isEditPage = location.pathname === "/edit-property/:id"
   const isPropertyDetailPage = !!propertyMatch;
 
   let NavBarToShow= null;
@@ -44,8 +45,12 @@ function App() {
   else if(isProfilePage){
     NavBarToShow = <Navbar3/>
   }
+  else if(isEditPage){
+    NavBarToShow =<AuthNavbar/>
+  }
+  
   else{
-    NavBarToShow = <NavBar/>;
+    NavBarToShow = null;
   }
 
   return (
@@ -69,7 +74,7 @@ function App() {
           <Route path='/property/:id' element={<PropertyDetails />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/edit-property/:id' element={<EditProperty />} />
-          <Route path="*" element={userLoggedIn ? <EditProperty /> : <Navigate to="/login" />} />
+          
         </Routes>
         
 
