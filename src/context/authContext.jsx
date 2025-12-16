@@ -19,7 +19,7 @@ export function AuthProvider({ children }) {
         );
         console.log("Auth check responce",res.data )
         if(res.data && res.data.user){
-          setUser(res.data);
+          setUser(res.data.user);
         setUserLoggedIn(true);
         }
       } catch {

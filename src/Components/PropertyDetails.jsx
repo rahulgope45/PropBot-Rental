@@ -1,23 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../context/authContext';
-import { PROPERTY_URL } from '../Services/consfig';
+import { PROPERTY_URL, REVIEW_URL } from '../Services/consfig';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
 function PropertyDetails() {
 
-    const {id} = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
-    const {userLoggedIn} =useAuth();
+    const { userLoggedIn, user } = useAuth();
 
     const [property, setProperty] = useState(null)
     const [loading, setloading] = useState(true)
     const [selectImage, setSelectImage] = useState(0);
     const [showContentModal, setshowContentModal] = useState(false);
 
+    // ✅ Reviews/Comments State
+    const [reviews, setReviews] = useState([]);
+    const [loadingReviews, setLoadingReviews] = useState(false);
+    const [newComment, setNewComment] = useState('');
+    const [submittingComment, setSubmittingComment] = useState(false);
+
     useEffect(() => {
         fetchProperty();
+        fetchReviews();
     }, [id])
 
     const fetchProperty = async () => {
@@ -34,6 +41,80 @@ function PropertyDetails() {
             setloading(false)
         }
     };
+
+    // ✅ Fetch Reviews
+    const fetchReviews = async () => {
+        setLoadingReviews(true);
+        try {
+            const response = await axios.get(`${REVIEW_URL}/property/${id}`);
+            setReviews(response.data.reviews);
+        } catch (error) {
+            console.error('Error fetching reviews:', error);
+        } finally {
+            setLoadingReviews(false);
+        }
+    };
+
+    // ✅ Submit Comment
+    const handleSubmitComment = async (e) => {
+        e.preventDefault();
+
+        if (!userLoggedIn) {
+            toast.error('Please login to comment');
+            navigate('/login');
+            return;
+        }
+
+        if (!newComment.trim()) {
+            toast.error('Please enter a comment');
+            return;
+        }
+
+        if (newComment.length > 500) {
+            toast.error('Comment must be less than 500 characters');
+            return;
+        }
+
+        setSubmittingComment(true);
+
+        try {
+            const response = await axios.post(
+                `${REVIEW_URL}/property/${id}`,
+                { comment: newComment },
+                { withCredentials: true }
+            );
+
+            setReviews(prev => [response.data.review, ...prev]);
+            setNewComment('');
+            toast.success('Comment added successfully!');
+        } catch (error) {
+            console.error('Error adding comment:', error);
+            const errorMsg = error.response?.data?.message || 'Failed to add comment';
+            toast.error(errorMsg);
+        } finally {
+            setSubmittingComment(false);
+        }
+    };
+
+    // ✅ Delete Comment
+    const handleDeleteComment = async (reviewId) => {
+        if (!window.confirm('Are you sure you want to delete this comment?')) {
+            return;
+        }
+
+        try {
+            await axios.delete(`${REVIEW_URL}/${reviewId}`, {
+                withCredentials: true
+            });
+
+            setReviews(prev => prev.filter(review => review._id !== reviewId));
+            toast.success('Comment deleted successfully');
+        } catch (error) {
+            console.error('Error deleting comment:', error);
+            toast.error('Failed to delete comment');
+        }
+    };
+
 
     const formatPrice = (price) => {
         return new Intl.NumberFormat('en-IN', {
@@ -53,6 +134,17 @@ function PropertyDetails() {
         setshowContentModal(true);
     }
 
+      // Format date
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString('en-IN', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
 
     //Loading State
     if (loading) {
@@ -71,18 +163,18 @@ function PropertyDetails() {
 
     //no property state 
     if (!property) {
-        return(
+        return (
             <div className='flex justify-center items-center min-h-screen'>
-            <div className='text-center'>
-                <i className='bi bi-exclamation-triangle text-6xl text-red-600 mb-4'></i>
-                <p className='text-gray-600 font-bold text-2xl mb-2'>
-                    Property Not Found
-                </p>
-                <button className='mt-4 px-6 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-700'>
-                    Back to Properties
-                </button>
+                <div className='text-center'>
+                    <i className='bi bi-exclamation-triangle text-6xl text-red-600 mb-4'></i>
+                    <p className='text-gray-600 font-bold text-2xl mb-2'>
+                        Property Not Found
+                    </p>
+                    <button className='mt-4 px-6 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-700'>
+                        Back to Properties
+                    </button>
+                </div>
             </div>
-        </div>
         )
     }
 
@@ -131,8 +223,8 @@ function PropertyDetails() {
                                             alt={`Thumbnail ${index + 1}`}
                                             onClick={() => setSelectImage(index)}
                                             className={`w-full h-20 object-cover rounded cursor-pointer transition ${selectImage === index
-                                                    ? 'ring-4 ring-blue-600'
-                                                    : 'hover:opacity-75'
+                                                ? 'ring-4 ring-blue-600'
+                                                : 'hover:opacity-75'
                                                 }`}
                                         />
                                     ))}
@@ -171,8 +263,8 @@ function PropertyDetails() {
                             {/* Badges */}
                             <div className="flex gap-3 mb-6">
                                 <span className={`px-4 py-2 rounded-full text-sm font-semibold ${property.listingType === 'sale'
-                                        ? 'bg-green-100 text-green-800'
-                                        : 'bg-blue-100 text-blue-800'
+                                    ? 'bg-green-100 text-green-800'
+                                    : 'bg-blue-100 text-blue-800'
                                     }`}>
                                     For {property.listingType === 'sale' ? 'Sale' : 'Rent'}
                                 </span>
@@ -312,49 +404,153 @@ function PropertyDetails() {
 
                 {/* Reviews Section - Will add in next step */}
                 <div className="mt-12 bg-white rounded-lg shadow-lg p-6">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Reviews & Ratings</h2>
-                    <p className="text-gray-600 text-center py-8">
-                        Reviews feature coming soon...
-                    </p>
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6">
+                        Comments ({reviews.length})
+                    </h2>
+
+                    {/* Add Comment Form */}
+                    {userLoggedIn ? (
+                        <form onSubmit={handleSubmitComment} className="mb-8">
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Add a Comment
+                                </label>
+                                <textarea
+                                    value={newComment}
+                                    onChange={(e) => setNewComment(e.target.value)}
+                                    placeholder="Share your thoughts about this property..."
+                                    rows="4"
+                                    maxLength="500"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                />
+                                <div className="flex justify-between items-center mt-2">
+                                    <span className="text-sm text-gray-500">
+                                        {newComment.length}/500 characters
+                                    </span>
+                                    <button
+                                        type="submit"
+                                        disabled={submittingComment || !newComment.trim()}
+                                        className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+                                    >
+                                        {submittingComment ? (
+                                            <span className="flex items-center gap-2">
+                                                <i className="bi bi-hourglass-split animate-spin"></i>
+                                                Posting...
+                                            </span>
+                                        ) : (
+                                            'Post Comment'
+                                        )}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    ) : (
+                        <div className="mb-8 text-center p-6 bg-blue-50 rounded-lg">
+                            <p className="text-gray-700 mb-3">Please login to comment on this property</p>
+                            <button
+                                onClick={() => navigate('/login')}
+                                className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
+                            >
+                                Login to Comment
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Comments List */}
+                    {loadingReviews ? (
+                        <div className="text-center py-8">
+                            <i className="bi bi-hourglass-split text-3xl text-blue-600 animate-spin mb-2"></i>
+                            <p className="text-gray-600">Loading comments...</p>
+                        </div>
+                    ) : reviews.length === 0 ? (
+                        <div className="text-center py-12">
+                            <i className="bi bi-chat-square-text text-5xl text-gray-300 mb-3"></i>
+                            <p className="text-gray-600">No comments yet. Be the first to comment!</p>
+                        </div>
+                    ) : (
+                        <div className="space-y-4">
+                            {reviews.map((review) => (
+                                <div
+                                    key={review._id}
+                                    className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition"
+                                >
+                                    <div className="flex items-start justify-between mb-3">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-semibold">
+                                                {review.user?.fullName?.charAt(0).toUpperCase() || 'U'}
+                                            </div>
+                                            <div>
+                                                <p className="font-semibold text-gray-800">
+                                                    {review.user?.fullName || 'User'}
+                                                </p>
+                                                <p className="text-sm text-gray-500">
+                                                    {formatDate(review.createdAt)}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        {/* Delete button (only show for comment owner) */}
+                                        {userLoggedIn && 
+                                        user?._id &&  
+                                        review.user?._id  &&
+                                        String(user._id) === String(review.user._id) &&
+                                        (
+                                            <button
+                                                onClick={() => handleDeleteComment(review._id)}
+                                                className="text-red-600 hover:text-red-700 transition"
+                                            >
+                                                <i className="bi bi-trash text-lg"></i>
+                                            </button>
+                                        )}
+                                    </div>
+
+                                    <p className="text-gray-700 leading-relaxed">{review.comment}</p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
+        
 
-            {/* Contact Modal */}
-            {showContentModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-lg max-w-md w-full p-6">
-                        <h3 className="text-xl font-bold mb-4">Contact Owner</h3>
-                        <p className="text-gray-600 mb-4">
-                            You can contact the property owner using the following details:
-                        </p>
-                        <div className="space-y-3 mb-6">
-                            {property.owner.phone && (
-                                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded">
-                                    <i className="bi bi-telephone-fill text-blue-600"></i>
-                                    <a href={`tel:${property.owner.phone}`} className="text-blue-600 hover:underline">
-                                        {property.owner.phone}
-                                    </a>
-                                </div>
-                            )}
-                            {property.owner.email && (
-                                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded">
-                                    <i className="bi bi-envelope-fill text-blue-600"></i>
-                                    <a href={`mailto:${property.owner.email}`} className="text-blue-600 hover:underline break-all">
-                                        {property.owner.email}
-                                    </a>
-                                </div>
-                            )}
-                        </div>
-                        <button
-                            onClick={() => setshowContentModal(false)}
-                            className="w-full bg-gray-200 text-gray-800 py-2 rounded-lg hover:bg-gray-300 transition"
-                        >
-                            Close
-                        </button>
+            {/* Contact Modal */ }
+    {
+        showContentModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                <div className="bg-white rounded-lg max-w-md w-full p-6">
+                    <h3 className="text-xl font-bold mb-4">Contact Owner</h3>
+                    <p className="text-gray-600 mb-4">
+                        You can contact the property owner using the following details:
+                    </p>
+                    <div className="space-y-3 mb-6">
+                        {property.owner.phone && (
+                            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded">
+                                <i className="bi bi-telephone-fill text-blue-600"></i>
+                                <a href={`tel:${property.owner.phone}`} className="text-blue-600 hover:underline">
+                                    {property.owner.phone}
+                                </a>
+                            </div>
+                        )}
+                        {property.owner.email && (
+                            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded">
+                                <i className="bi bi-envelope-fill text-blue-600"></i>
+                                <a href={`mailto:${property.owner.email}`} className="text-blue-600 hover:underline break-all">
+                                    {property.owner.email}
+                                </a>
+                            </div>
+                        )}
                     </div>
+                    <button
+                        onClick={() => setshowContentModal(false)}
+                        className="w-full bg-gray-200 text-gray-800 py-2 rounded-lg hover:bg-gray-300 transition"
+                    >
+                        Close
+                    </button>
                 </div>
-            )}
-        </div>
+            </div>
+        )
+    }
+        </div >
     )
 }
 
