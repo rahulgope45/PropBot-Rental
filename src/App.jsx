@@ -24,13 +24,14 @@ function App() {
 
   const location = useLocation();
   const propertyMatch = useMatch('property/:id');
+  const editPageMatch =useMatch ('/edit-property/:id')
   const {userLoggedIn} = useAuth();
  
   // check if current route is signup or login
   const isAuthPage = location.pathname === "/signup" || location.pathname === "/login" ;
   const isSellPage = location.pathname === "/sell";
   const isProfilePage = location.pathname === "/profile" ;
-  const isEditPage = location.pathname === "/edit-property/:id"
+  const isEditPage = !!editPageMatch
   const isPropertyDetailPage = !!propertyMatch;
 
   let NavBarToShow= null;
@@ -46,11 +47,11 @@ function App() {
     NavBarToShow = <Navbar3/>
   }
   else if(isEditPage){
-    NavBarToShow =<AuthNavbar/>
+    NavBarToShow = <Navbar3/>
   }
   
   else{
-    NavBarToShow = null;
+    NavBarToShow = <NavBar/>;
   }
 
   return (
