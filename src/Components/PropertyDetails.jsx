@@ -4,6 +4,7 @@ import { useAuth } from '../context/authContext';
 import { PROPERTY_URL, REVIEW_URL } from '../Services/consfig';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import InquiryModal from './InquiryModal';
 
 function PropertyDetails() {
 
@@ -14,13 +15,18 @@ function PropertyDetails() {
     const [property, setProperty] = useState(null)
     const [loading, setloading] = useState(true)
     const [selectImage, setSelectImage] = useState(0);
-    const [showContentModal, setshowContentModal] = useState(false);
 
-    // ✅ Reviews/Comments State
+
+
+
+    //  Reviews/Comments State
     const [reviews, setReviews] = useState([]);
     const [loadingReviews, setLoadingReviews] = useState(false);
     const [newComment, setNewComment] = useState('');
     const [submittingComment, setSubmittingComment] = useState(false);
+
+    //Inquiry thing
+    const [showInquiryModal, setShowInquiryModal] = useState(false);
 
     useEffect(() => {
         fetchProperty();
@@ -131,19 +137,21 @@ function PropertyDetails() {
             navigate("/login")
             return;
         }
-        setshowContentModal(true);
+        setShowInquiryModal(true);
     }
 
-      // Format date
-  const formatDate = (date) => {
-    return new Date(date).toLocaleDateString('en-IN', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
+    // Format date
+    const formatDate = (date) => {
+        return new Date(date).toLocaleDateString('en-IN', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
+
 
 
     //Loading State
@@ -352,18 +360,13 @@ function PropertyDetails() {
                                             <span className="text-gray-700">{property.owner.name}</span>
                                         </div>
                                     )}
-                                    {property.owner.phone && (
-                                        <div className="flex items-center gap-3">
-                                            <i className="bi bi-telephone text-xl text-gray-600"></i>
-                                            <span className="text-gray-700">{property.owner.phone}</span>
-                                        </div>
-                                    )}
-                                    {property.owner.email && (
-                                        <div className="flex items-center gap-3">
-                                            <i className="bi bi-envelope text-xl text-gray-600"></i>
-                                            <span className="text-gray-700 text-sm break-all">{property.owner.email}</span>
-                                        </div>
-                                    )}
+
+                                    {/* ✅ REMOVE or COMMENT OUT phone/email display */}
+                                    {/* Keep owner contact info private until inquiry is sent */}
+                                    <div className="flex items-center gap-3 text-sm text-gray-500">
+                                        <i className="bi bi-shield-check text-green-600"></i>
+                                        <span>Verified Owner</span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -384,6 +387,7 @@ function PropertyDetails() {
                                 <i className="bi bi-calendar-check mr-2"></i>
                                 Schedule Visit
                             </button>
+                            
 
                             {/* Property Stats */}
                             <div className="mt-6 pt-6 border-t">
@@ -490,18 +494,18 @@ function PropertyDetails() {
                                         </div>
 
                                         {/* Delete button (only show for comment owner) */}
-                                        {userLoggedIn && 
-                                        user?._id &&  
-                                        review.user?._id  &&
-                                        String(user._id) === String(review.user._id) &&
-                                        (
-                                            <button
-                                                onClick={() => handleDeleteComment(review._id)}
-                                                className="text-red-600 hover:text-red-700 transition"
-                                            >
-                                                <i className="bi bi-trash text-lg"></i>
-                                            </button>
-                                        )}
+                                        {userLoggedIn &&
+                                            user?._id &&
+                                            review.user?._id &&
+                                            String(user._id) === String(review.user._id) &&
+                                            (
+                                                <button
+                                                    onClick={() => handleDeleteComment(review._id)}
+                                                    className="text-red-600 hover:text-red-700 transition"
+                                                >
+                                                    <i className="bi bi-trash text-lg"></i>
+                                                </button>
+                                            )}
                                     </div>
 
                                     <p className="text-gray-700 leading-relaxed">{review.comment}</p>
@@ -511,45 +515,26 @@ function PropertyDetails() {
                     )}
                 </div>
             </div>
-        
 
-            {/* Contact Modal */ }
-    {
-        showContentModal && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                <div className="bg-white rounded-lg max-w-md w-full p-6">
-                    <h3 className="text-xl font-bold mb-4">Contact Owner</h3>
-                    <p className="text-gray-600 mb-4">
-                        You can contact the property owner using the following details:
-                    </p>
-                    <div className="space-y-3 mb-6">
-                        {property.owner.phone && (
-                            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded">
-                                <i className="bi bi-telephone-fill text-blue-600"></i>
-                                <a href={`tel:${property.owner.phone}`} className="text-blue-600 hover:underline">
-                                    {property.owner.phone}
-                                </a>
-                            </div>
-                        )}
-                        {property.owner.email && (
-                            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded">
-                                <i className="bi bi-envelope-fill text-blue-600"></i>
-                                <a href={`mailto:${property.owner.email}`} className="text-blue-600 hover:underline break-all">
-                                    {property.owner.email}
-                                </a>
-                            </div>
-                        )}
-                    </div>
-                    <button
-                        onClick={() => setshowContentModal(false)}
-                        className="w-full bg-gray-200 text-gray-800 py-2 rounded-lg hover:bg-gray-300 transition"
-                    >
-                        Close
-                    </button>
+
+            {/* Contact Modal */}
+            {showInquiryModal && (
+                <InquiryModal
+                    property={property}
+                    onClose={() => setShowInquiryModal(false)}
+                    onSuccess={() => {
+                        console.log('Inquiry sent successfully!');
+                    }}
+                />
+            )}
+
+            {/* ✅ REMOVE THIS ENTIRE OLD CONTACT MODAL */}
+            {/* DELETE FROM HERE: */}
+            {/* {showContentModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    ... old modal code ...
                 </div>
-            </div>
-        )
-    }
+            )} */}
         </div >
     )
 }
