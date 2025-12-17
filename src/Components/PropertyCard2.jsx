@@ -47,7 +47,7 @@ function PropertyCard2({ property }) {
                     <img
                         src={primaryImage?.url || 'placeholder.jpg'}
                         alt={property.title}
-                        className='w-full sm:w-[648px] h-[300px] sm:h-[510px] object-fill rounded-xl '
+                        className='w-full sm:w-[648px] h-[300px] sm:h-[510px] object-cover rounded-xl '
                     />
                     {/* Card Details */}
                     <div

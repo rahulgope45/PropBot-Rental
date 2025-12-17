@@ -7,6 +7,7 @@ import ProfileProperty from '../Components/ProfileProterty';
 import { AUTH_BASR_URL, PROPERTY_URL } from '../Services/consfig';
 import { useAuth } from '../context/authContext';
 import { INQUIRY_URL } from '../Services/consfig';
+import OwnerInquiries from '../Components/OwnerInquiry';
 
 function Profile() {
   const navigate = useNavigate();
@@ -144,47 +145,7 @@ const [loadingInquiries, setLoadingInquiries] = useState(false);
         </div>
 
         {/* Inquiries section */}
-        <div className="mt-8 bg-white rounded-2xl shadow-lg p-8">
-          <h2 className='text-3xl text-blue-900 font-bold mb-6'>
-            Inquiries Received ({inquiries.length})
-          </h2>
-
-          {inquiries.length === 0 ? (
-            <p className="text-gray-600 text-center py-8">No inquiries yet</p>
-          ) : (
-            <div className="space-y-4">
-              {inquiries.map(inquiry => (
-                <div key={inquiry._id} className="border rounded-lg p-4">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <p className="font-semibold text-lg">{inquiry.inquirer.name}</p>
-                      <p className="text-sm text-gray-600">{inquiry.property.title}</p>
-                    </div>
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${inquiry.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                        inquiry.status === 'contacted' ? 'bg-blue-100 text-blue-800' :
-                          'bg-gray-100 text-gray-800'
-                      }`}>
-                      {inquiry.status}
-                    </span>
-                  </div>
-
-                  <div className="space-y-2 text-sm mb-3">
-                    <p><strong>Phone:</strong> {inquiry.inquirer.phone}</p>
-                    <p><strong>Email:</strong> {inquiry.inquirer.email}</p>
-                    <p><strong>Message:</strong> {inquiry.message}</p>
-                    {inquiry.preferredDate && (
-                      <p><strong>Preferred Visit:</strong> {new Date(inquiry.preferredDate).toLocaleDateString()} at {inquiry.preferredTime}</p>
-                    )}
-                  </div>
-
-                  <p className="text-xs text-gray-500">
-                    Received: {new Date(inquiry.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <OwnerInquiries/>
 
         {/* User Properties Section */}
         <div className="bg-white rounded-2xl shadow-lg p-8">
