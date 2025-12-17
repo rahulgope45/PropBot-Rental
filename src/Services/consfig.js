@@ -1,6 +1,6 @@
 export const BASE_URL =
   import.meta.env.MODE === "production"
-    ? ""
+    ? "https://pro-boat-rental-backend.vercel.app"
     : "http://localhost:5000";
 
 export const AUTH_BASR_URL = `${BASE_URL}/api/auth`;
