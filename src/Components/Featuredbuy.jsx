@@ -3,6 +3,8 @@ import { fetchProperties } from '../Services/api'
 import { useState, useEffect } from 'react'
 import Geo2 from '/Geo2.png'
 import bookmark from '/bookmark.png'
+import axios from 'axios'
+import { PROPERTY_URL } from '../Services/consfig'
 
 function Featuredbuy() {
 
@@ -34,7 +36,7 @@ function Featuredbuy() {
                     Featured Property
                 </p>
                 <button className="bg-white px-3 py-1 rounded-full border border-blue-900 shadow-md font-medium text-blue-700 text-1.75xl hover:bg-gray-50 h-[47px] w-[260px] flex justify-center items-center gap-2">
-                    See 268 New Projects <i className="bi bi-arrow-up-right color-blue-900"></i>
+                    See New Projects <i className="bi bi-arrow-up-right bg-blue-900"></i>
                 </button>
             </div>
 

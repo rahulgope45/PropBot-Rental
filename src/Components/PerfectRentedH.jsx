@@ -2,25 +2,36 @@ import React from 'react'
 import { fetchProperties } from '../Services/api'
 import { useState, useEffect } from 'react'
 import icon6 from '/icon6.png'
+import { PROPERTY_URL } from '../Services/consfig'
+import axios from 'axios'
+import PropertyCardBuy from './PropertyCardBuy'
+import { useNavigate } from 'react-router-dom'
 
 function PerfectRentedH() {
+  
+  const navigate = useNavigate()
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState([]);
 
-  const [featured, setFeatured] = useState([]);
 
-  useEffect(() => {
-    (async () => {
+   useEffect(() => {
+    const fetchSaleProperties = async () => {
+      setLoading(true);
       try {
-        const data = await fetchProperties();
-        setFeatured(data.slice(0, 25))
+        const params = new URLSearchParams();
+        params.append('listingType', 'rent');
 
+        const res = await axios.get(`${PROPERTY_URL}?${params}`);
+        setProperties(res.data.properties.slice(0, 4)); // only 4 cards
       } catch (error) {
-        console.log("Failed to fetch Featured data", error);
-
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
-    })();
-  }, []);
+    };
 
-  if (featured.length < 4) return null;
+    fetchSaleProperties();
+  }, []);
 
 
 
@@ -34,7 +45,9 @@ function PerfectRentedH() {
             <button className="bg-blue-900 px-3 py-1 rounded-full border border-blue-900 shadow-md 
                            font-medium text-white text-base sm:text-xl 
                            hover:bg-blue-700 h-[42px] sm:h-[47px] w-full sm:w-[260px] 
-                           flex justify-center items-center gap-2">
+                           flex justify-center items-center gap-2"
+                           onClick={() => navigate("/rent")}
+                           >
             View All Rentals
             </button>
           </div>
@@ -43,187 +56,15 @@ function PerfectRentedH() {
               Browse our top-rated properties for sale, featuring premium listings tailored to<br/> your needs. Find your dream home today!
             </p>
           </div>
-          <div className="flex flex-wrap gap-6 justify-center px-10">
-            {/* Property Card 1*/}
-            <div className="h-[440px] w-[341px] bg-gray-200 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              {/* Image */}
-              <img
-                className="w-full h-[200px] object-cover rounded-t-2xl p-2"
-                src={featured[11].image}
-                alt={featured[11].name}
-              />
-    
-              {/* Content */}
-              <div className="p-4 flex flex-col h-[240px]">
-                {/* Location + Rating */}
-                <div className="flex items-center justify-between mb-3">
-                  {/* Location */}
-                  <div className="flex items-center gap-2 text-gray-600 text-sm">
-                    <img src={icon6} alt="location" className="w-4 h-4" />
-                    <p className="font-medium text-gray-500">
-                      {featured[11].state}, {featured[11].countryCode}
-                    </p>
-                  </div>
-    
-                  {/* Rating */}
-                  <div className="flex items-center gap-1">
-                    <i className="bi bi-star-fill text-yellow-400"></i>
-                    <p className="text-gray-600 text-sm font-medium">4.5/5</p>
-                  </div>
-                </div>
-    
-                {/* Description */}
-                <p className="text-black text-1.9xl mb-4 leading-relaxed">
-                  Spacious 3BHK apartment in a<br />prime location with modern<br />amenities.
-                </p>
-    
-                {/* Footer (Button + Price) */}
-                <div className="flex justify-between items-center ">
-                  <button className="bg-blue-900 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                    Buy Now
-                  </button>
-                  <p className="text-lg font-semibold text-black">$1500/month</p>
-                </div>
-              </div>
-            </div>
-    
-    
-    
-            {/* Property Card 2*/}
-            <div className="h-[440px] w-[341px] bg-gray-200 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              {/* Image */}
-              <img
-                className="w-full h-[200px] object-cover rounded-t-2xl p-2"
-                src={featured[17].image}
-                alt={featured[17].name}
-              />
-    
-              {/* Content */}
-              <div className="p-4 flex flex-col h-[240px]">
-                {/* Location + Rating */}
-                <div className="flex items-center justify-between mb-3">
-                  {/* Location */}
-                  <div className="flex items-center gap-2 text-gray-600 text-sm">
-                    <img src={icon6} alt="location" className="w-4 h-4" />
-                    <p className="font-medium text-gray-500">
-                      {featured[17].state}, {featured[17].countryCode}
-                    </p>
-                  </div>
-    
-                  {/* Rating */}
-                  <div className="flex items-center gap-1">
-                    <i className="bi bi-star-fill text-yellow-400"></i>
-                    <p className="text-gray-600 text-sm font-medium">4.5/5</p>
-                  </div>
-                </div>
-    
-                {/* Description */}
-                <p className="text-black text-1.9xl mb-4 leading-relaxed">
-                  Spacious 3BHK apartment in a<br />prime location with modern<br />amenities.
-                </p>
-    
-                {/* Footer (Button + Price) */}
-                <div className="flex justify-between items-center ">
-                  <button className="bg-blue-900 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                    Buy Now
-                  </button>
-                  <p className="text-lg font-semibold text-black">$1500/month</p>
-                </div>
-              </div>
-            </div>
-    
-    
-    
-    
-            {/* Property Card 3*/}
-            <div className="h-[440px] w-[341px] bg-gray-200 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              {/* Image */}
-              <img
-                className="w-full h-[200px] object-cover rounded-t-2xl p-2"
-                src={featured[18].image}
-                alt={featured[18].name}
-              />
-    
-              {/* Content */}
-              <div className="p-4 flex flex-col h-[240px]">
-                {/* Location + Rating */}
-                <div className="flex items-center justify-between mb-3">
-                  {/* Location */}
-                  <div className="flex items-center gap-2 text-gray-600 text-sm">
-                    <img src={icon6} alt="location" className="w-4 h-4" />
-                    <p className="font-medium text-gray-500">
-                      {featured[18].state}, {featured[18].countryCode}
-                    </p>
-                  </div>
-    
-                  {/* Rating */}
-                  <div className="flex items-center gap-1">
-                    <i className="bi bi-star-fill text-yellow-400"></i>
-                    <p className="text-gray-600 text-sm font-medium">4.5/5</p>
-                  </div>
-                </div>
-    
-                {/* Description */}
-                <p className="text-black text-1.9xl mb-4 leading-relaxed">
-                  Spacious 3BHK apartment in a<br />prime location with modern<br />amenities.
-                </p>
-    
-                {/* Footer (Button + Price) */}
-                <div className="flex justify-between items-center ">
-                  <button className="bg-blue-900 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                    Buy Now
-                  </button>
-                  <p className="text-lg font-semibold text-black">$1500/month</p>
-                </div>
-              </div>
-            </div>
-    
-    
-    
-    
-            {/* Property Card 4*/}
-            <div className="h-[440px] w-[341px] bg-gray-200 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              {/* Image */}
-              <img
-                className="w-full h-[200px] object-cover rounded-t-2xl p-2"
-                src={featured[20].image}
-                alt={featured[20].name}
-              />
-    
-              {/* Content */}
-              <div className="p-4 flex flex-col h-[240px]">
-                {/* Location + Rating */}
-                <div className="flex items-center justify-between mb-3">
-                  {/* Location */}
-                  <div className="flex items-center gap-2 text-gray-600 text-sm">
-                    <img src={icon6} alt="location" className="w-4 h-4" />
-                    <p className="font-medium text-gray-500">
-                      {featured[20].state}, {featured[20].countryCode}
-                    </p>
-                  </div>
-    
-                  {/* Rating */}
-                  <div className="flex items-center gap-1">
-                    <i className="bi bi-star-fill text-yellow-400"></i>
-                    <p className="text-gray-600 text-sm font-medium">4.5/5</p>
-                  </div>
-                </div>
-    
-                {/* Description */}
-                <p className="text-black text-1.9xl mb-4 leading-relaxed">
-                  Spacious 3BHK apartment in a<br />prime location with modern<br />amenities.
-                </p>
-    
-                {/* Footer (Button + Price) */}
-                <div className="flex justify-between items-center ">
-                  <button className="bg-blue-900 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                    Buy Now
-                  </button>
-                  <p className="text-lg font-semibold text-black">$1500/month</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* here are the properties */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center px-10">
+        {properties.map(property => (
+          <PropertyCardBuy
+            key={property._id}
+            property={property}
+          />
+        ))}
+      </div>
         </div>
   )
 }
