@@ -154,7 +154,15 @@ function NavBar() {
           }>
           Sell
         </NavLink>
-        <p className="hover:text-blue-700 cursor-pointer">About Us</p>
+         <NavLink
+          to="/aboutus"
+          className={({ isActive }) =>
+            `hover:text-blue-700 cursor-pointer ${isActive ? 'border-b-2 border-blue-500 text-blue-700' : ''
+            }`
+          }>
+          About Us
+        </NavLink>
+       
         <p className="hover:text-blue-700 cursor-pointer">Contact Us</p>
       </div>
 
@@ -232,7 +240,7 @@ function NavBar() {
           <NavLink to="/buy" className="block text-lg font-medium border-b pb-2">Buy</NavLink>
           <NavLink to="/rent" className="block text-lg font-medium border-b pb-2">Rent</NavLink>
           <NavLink to="/sell" className="block text-lg font-medium border-b pb-2">Sell</NavLink>
-
+          <NavLink to="/sell" className="block text-lg font-medium border-b pb-2">Sell</NavLink>
           <p className="block text-lg font-medium border-b pb-2">About Us</p>
           <p className="block text-lg font-medium border-b pb-2">Contact Us</p>
 

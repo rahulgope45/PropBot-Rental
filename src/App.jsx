@@ -17,6 +17,7 @@ import Rent from './Pages/Rent'
 import PropertyDetails from './Components/PropertyDetails'
 import Profile from './Pages/Profile'
 import EditProperty from './Pages/EditProperty'
+import AboutUs from './Pages/AboutUs'
 
 
 
@@ -31,6 +32,7 @@ function App() {
   const isAuthPage = location.pathname === "/signup" || location.pathname === "/login" ;
   const isSellPage = location.pathname === "/sell";
   const isProfilePage = location.pathname === "/profile" ;
+  const isAboutPage = location.pathname === "/aboutus";
   const isEditPage = !!editPageMatch
   const isPropertyDetailPage = !!propertyMatch;
 
@@ -48,6 +50,9 @@ function App() {
   }
   else if(isEditPage){
     NavBarToShow = <Navbar3/>
+  }
+  else if(isAboutPage){
+     NavBarToShow= <Navbar3/>
   }
   
   else{
@@ -74,6 +79,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/property/:id' element={<PropertyDetails />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/aboutus' element={<AboutUs/>} />
           <Route path='/edit-property/:id' element={<EditProperty />} />
           
         </Routes>
