@@ -162,8 +162,16 @@ function NavBar() {
           }>
           About Us
         </NavLink>
+        <NavLink
+          to="/contactme"
+          className={({ isActive }) =>
+            `hover:text-blue-700 cursor-pointer ${isActive ? 'border-b-2 border-blue-500 text-blue-700' : ''
+            }`
+          }>
+          Contact Me
+        </NavLink>
        
-        <p className="hover:text-blue-700 cursor-pointer">Contact Us</p>
+        
       </div>
 
       {/* Desktop Auth Button */}
@@ -241,6 +249,8 @@ function NavBar() {
           <NavLink to="/rent" className="block text-lg font-medium border-b pb-2">Rent</NavLink>
           <NavLink to="/sell" className="block text-lg font-medium border-b pb-2">Sell</NavLink>
           <NavLink to="/sell" className="block text-lg font-medium border-b pb-2">Sell</NavLink>
+          <NavLink to="/aboutus" className="block text-lg font-medium border-b pb-2">AboutUs</NavLink>
+          <NavLink to="/contactme" className="block text-lg font-medium border-b pb-2">Contact Me</NavLink>
           <p className="block text-lg font-medium border-b pb-2">About Us</p>
           <p className="block text-lg font-medium border-b pb-2">Contact Us</p>
 

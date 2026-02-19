@@ -90,7 +90,15 @@ function Navbar3() {
           }>
           About Us
         </NavLink>
-        <p className="hover:text-blue-700 cursor-pointer">About Us</p>
+         <NavLink
+          to="/contactme"
+          className={({ isActive }) =>
+            `hover:text-blue-700 cursor-pointer ${isActive ? 'border-b-2 border-blue-500 text-blue-700' : ''
+            }`
+          }>
+          Contact Me
+        </NavLink>
+        
         <p className="hover:text-blue-700 cursor-pointer">Contact Us</p>
       </div>
 
@@ -168,8 +176,8 @@ function Navbar3() {
           <NavLink to="/rent" className="block text-lg font-medium border-b pb-2">Rent</NavLink>
           <NavLink to="/sell" className="block text-lg font-medium border-b pb-2">Sell</NavLink>
           <NavLink to="/aboutus" className="block text-lg font-medium border-b pb-2">About Us</NavLink>
+          <NavLink to="/contactme" className="block text-lg font-medium border-b pb-2">Contact Me</NavLink>
           
-          <p className="block text-lg font-medium border-b pb-2">Contact Us</p>
 
           {/* Auth */}
           <div className="mt-6">

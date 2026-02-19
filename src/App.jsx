@@ -18,6 +18,8 @@ import PropertyDetails from './Components/PropertyDetails'
 import Profile from './Pages/Profile'
 import EditProperty from './Pages/EditProperty'
 import AboutUs from './Pages/AboutUs'
+import ContactUs from './Pages/ContactUs'
+
 
 
 
@@ -32,7 +34,7 @@ function App() {
   const isAuthPage = location.pathname === "/signup" || location.pathname === "/login" ;
   const isSellPage = location.pathname === "/sell";
   const isProfilePage = location.pathname === "/profile" ;
-  const isAboutPage = location.pathname === "/aboutus";
+  const isAboutPage = location.pathname === "/aboutus" || location.pathname === "/contactme";
   const isEditPage = !!editPageMatch
   const isPropertyDetailPage = !!propertyMatch;
 
@@ -80,6 +82,7 @@ function App() {
           <Route path='/property/:id' element={<PropertyDetails />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/aboutus' element={<AboutUs/>} />
+          <Route path='/contactme' element={<ContactUs/>} />
           <Route path='/edit-property/:id' element={<EditProperty />} />
           
         </Routes>
