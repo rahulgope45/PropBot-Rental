@@ -99,7 +99,7 @@ function Navbar3() {
           Contact Me
         </NavLink>
         
-        <p className="hover:text-blue-700 cursor-pointer">Contact Us</p>
+        
       </div>
 
       {/* Desktop Auth Button */}
