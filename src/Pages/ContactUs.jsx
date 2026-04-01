@@ -40,7 +40,7 @@ function ContactUs() {
 
           {/* The Main Action Button */}
           <a 
-            href="https://portfolio-2-two-ebon.vercel.app" 
+            href="https://rahulgope.vercel.app" 
             target="_blank" 
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-3 w-full md:w-auto px-10 py-4 bg-[#1d3f94] hover:bg-[#163172] text-white font-bold text-lg rounded-full transition-all transform hover:scale-105 shadow-lg"
@@ -50,7 +50,7 @@ function ContactUs() {
           </a>
 
           <p className="mt-6 text-sm text-gray-400 italic">
-            Redirecting to portfolio-2-two-ebon.vercel.app
+            Redirecting to my Portfolio
           </p>
         </div>
       </div>
